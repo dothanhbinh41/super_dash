@@ -10,7 +10,7 @@ class ScoreBloc extends Bloc<ScoreEvent, ScoreState> {
     required this.score,
     required LeaderboardRepository leaderboardRepository,
   })  : _leaderboardRepository = leaderboardRepository,
-        super(const ScoreState()) {
+        super(ScoreState()) {
     on<ScoreSubmitted>(_onScoreSubmitted);
     on<ScoreInitialsUpdated>(_onScoreInitialsUpdated);
     on<ScoreInitialsSubmitted>(_onScoreInitialsSubmitted);
@@ -20,7 +20,7 @@ class ScoreBloc extends Bloc<ScoreEvent, ScoreState> {
   final int score;
   final LeaderboardRepository _leaderboardRepository;
 
-  final initialsRegex = RegExp('[A-Z]{3}');
+  final initialsRegex = RegExp('[0-9]+');
 
   void _onScoreSubmitted(
     ScoreSubmitted event,
@@ -37,13 +37,14 @@ class ScoreBloc extends Bloc<ScoreEvent, ScoreState> {
     ScoreInitialsUpdated event,
     Emitter<ScoreState> emit,
   ) {
-    final initials = [...state.initials];
-    initials[event.index] = event.character;
+    state.initials = event.character;
     final initialsStatus =
         (state.initialsStatus == InitialsFormStatus.blacklisted)
             ? InitialsFormStatus.initial
             : state.initialsStatus;
-    emit(state.copyWith(initials: initials, initialsStatus: initialsStatus));
+    emit(
+      state.copyWith(initials: state.initials, initialsStatus: initialsStatus),
+    );
   }
 
   Future<void> _onScoreInitialsSubmitted(
@@ -59,7 +60,7 @@ class ScoreBloc extends Bloc<ScoreEvent, ScoreState> {
       try {
         await _leaderboardRepository.addLeaderboardEntry(
           LeaderboardEntryData(
-            playerInitials: state.initials.join(),
+            playerInitials: state.initials,
             score: score,
           ),
         );
@@ -74,11 +75,12 @@ class ScoreBloc extends Bloc<ScoreEvent, ScoreState> {
 
   bool _hasValidPattern() {
     final value = state.initials;
-    return value.isNotEmpty && initialsRegex.hasMatch(value.join());
+    final res = value.isNotEmpty && initialsRegex.hasMatch(value);
+    return res;
   }
 
   bool _isInitialsBlacklisted() {
-    return _blacklist.contains(state.initials.join());
+    return _blacklist.contains(state.initials);
   }
 
   void _onScoreLeaderboardRequested(

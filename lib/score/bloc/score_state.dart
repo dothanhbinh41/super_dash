@@ -16,20 +16,21 @@ enum InitialsFormStatus {
   blacklisted,
 }
 
+// ignore: must_be_immutable
 class ScoreState extends Equatable {
-  const ScoreState({
+  ScoreState({
     this.status = ScoreStatus.gameOver,
-    this.initials = const ['', '', ''],
+    this.initials = '',
     this.initialsStatus = InitialsFormStatus.initial,
   });
 
   final ScoreStatus status;
-  final List<String> initials;
+  String initials;
   final InitialsFormStatus initialsStatus;
 
   ScoreState copyWith({
     ScoreStatus? status,
-    List<String>? initials,
+    String? initials,
     InitialsFormStatus? initialsStatus,
   }) {
     return ScoreState(

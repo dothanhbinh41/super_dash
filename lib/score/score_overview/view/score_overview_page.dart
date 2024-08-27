@@ -79,7 +79,7 @@ class _Content extends StatelessWidget {
         ),
         const Spacer(flex: 2),
         Text(
-          initials.join(),
+          initials,
           style: textTheme.headlineMedium?.copyWith(
             fontWeight: FontWeight.bold,
             letterSpacing: 5,

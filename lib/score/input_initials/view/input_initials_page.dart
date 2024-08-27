@@ -54,7 +54,7 @@ class InputInitialsPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               const Text(
-                'Enter your initials for\nthe leaderboard',
+                'Nhập số điện thoại của\n bạn cho bảng xếp hạng',
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 24),

@@ -1,0 +1,216 @@
+{
+    "@@locale": "vi",
+    "gameIntroPageHeadline": "Bay vào Super Dash, tránh các con bọ, thu thập điểm và xem bạn có thể đi được bao xa!",
+    "@gameIntroPageHeadline": {
+        "description": "Text shown in the Headline of the Game Info Page"
+    },
+    "gameIntroPagePlayButtonText": "Chơi",
+    "@gameIntroPagePlayButtonText": {
+        "description": "Text shown in the Play button of the Game Info Page"
+    },
+    "gameInstructionsPageAutoRunTitle": "Dash Tự động chạy",
+    "@gameInstructionsPageAutoRunTitle": {
+        "description": "Text shown in the title of the auto run instruction of the Game Instructions Overlay"
+    },
+    "gameInstructionsPageAutoRunDescription": "Welcome to Super Dash. In this game Dash runs automatically.",
+    "@gameInstructionsPageAutoRunDescription": {
+        "description": "Text shown in the description of the auto run instruction of the Game Instructions Overlay"
+    },
+    "gameInstructionsPageTapToJumpTitle": "Ấn để nhảy",
+    "@gameInstructionsPageTapToJumpTitle": {
+        "description": "Text shown in the title of the tap to jump instruction of the Game Instructions Overlay"
+    },
+    "gameInstructionsPageTapToJumpDescription": "Ấn vào màn hình để nhảy",
+    "@gameInstructionsPageTapToJumpDescription": {
+        "description": "Text shown in the description of the tap to jump instruction of the Game Instructions Overlay"
+    },
+    "gameInstructionsPageTapToJumpDescriptionDesktop": "Hoặc ấn phím cách để nhảy",
+    "@gameInstructionsPageTapToJumpDescriptionDesktop": {
+        "description": "Text shown in the description of the tap to jump instruction of the Game Instructions Overlay"
+    },
+    "gameInstructionsPageCollectEggsAcornsTitle": "Thu thập trứng và quả sồi",
+    "@gameInstructionsPageCollectEggsAcornsTitle": {
+        "description": "Text shown in the title of the collect eggs and acorns instruction of the Game Instructions Overlay"
+    },
+    "gameInstructionsPageCollectEggsAcornsDescription": "Nhận điểm bằng cách thu thập trứng và quả sồi trong suốt màn chơi.",
+    "@gameInstructionsPageCollectEggsAcornsDescription": {
+        "description": "Text shown in the description of the collect eggs and acorns instruction of the Game Instructions Overlay"
+    },
+    "gameInstructionsPagePowerfulWingsTitle": "Đôi cánh mạnh mẽ",
+    "@gameInstructionsPagePowerfulWingsTitle": {
+        "description": "Text shown in the title of the powerful wings instruction of the Game Instructions Overlay"
+    },
+    "gameInstructionsPagePowerfulWingsDescription": "Thu thập lông vũ vàng để tăng sức mạnh cho Dash với Flutter. Khi đang ở giữa không trung, chạm để nhảy đôi và xem Dash bay!",
+    "@gameInstructionsPagePowerfulWingsDescription": {
+        "description": "Text shown in the description of the powerful wings instruction of the Game Instructions Overlay"
+    },
+    "gameInstructionsPageLevelGatesTitle": "Cổng cấp độ",
+    "@gameInstructionsPageLevelGatesTitle": {
+        "description": "Text shown in the title of the level gates instruction of the Game Instructions Overlay"
+    },
+    "gameInstructionsPageLevelGatesDescription": "Tiến qua các cổng để đối mặt với những thử thách khó khăn hơn ở các giai đoạn cao hơn.",
+    "@gameInstructionsPageLevelGatesDescription": {
+        "description": "Text shown in the description of the level gates instruction of the Game Instructions Overlay"
+    },
+    "gameInstructionsPageAvoidBugsTitle": "Tránh lỗi",
+    "@gameInstructionsPageAvoidBugsTitle": {
+        "description": "Text shown in the title of the avoid bugs instruction of the Game Instructions Overlay"
+    },
+    "gameInstructionsPageAvoidBugsDescription": "Không ai thích côn trùng cả! Hãy nhảy để né chúng và tránh bị thương.",
+    "@gameInstructionsPageAvoidBugsDescription": {
+        "description": "Text shown in the description of the avoid bugs instruction of the Game Instructions Overlay"
+    },
+    "mobileAppsComingSoon": "Ứng dụng di động sắp ra mắt",
+    "@mobileAppsComingSoon": {
+        "description": "Title shown in the Game Info Page for mobile devices joining from a browser"
+    },
+    "mobileAppsComingSoonGrabThe": "Lấy cái ",
+    "@mobileAppsComingSoonGrabThe": {
+        "description": "Description shown in the Game Info Page for mobile devices joining from a browser"
+    },
+    "mobileAppsComingSoonMobileSourceCode": "mobile source code ",
+    "@mobileAppsComingSoonMobileSourceCode": {
+        "description": "Description shown in the Game Info Page for mobile devices joining from a browser"
+    },
+    "mobileAppsComingSoonDescription": "in the repo and look for the apps available for download in stores soon! Open this link on a desktop web browser to play today.",
+    "@mobileModeUnavailableDescription": {
+        "description": "Description shown in the Game Info Page for mobile devices joining from a browser"
+    },
+    "superDash": "Super Dash",
+    "@superDash": {
+        "description": "Game name"
+    },
+    "howItsMade": "Nó được làm như thế nào",
+    "@howItsMade": {
+        "description": "Text shown in the game info page"
+    },
+    "aboutSuperDash": "Giới thiệu về Super Dash",
+    "@aboutSuperDash": {
+        "description": "Text shown in the game info popup"
+    },
+    "learn": "Học hỏi ",
+    "@learn": {
+        "description": "Text shown in the game info popup"
+    },
+    "howWeBuiltSuperDash": "how we built Super Dash",
+    "@howWeBuiltSuperDash": {
+        "description": "Text shown in the game info popup"
+    },
+    "inFlutterAndGrabThe": " in Flutter and grab the ",
+    "@inFlutterAndGrabThe": {
+        "description": "Text shown in the game info popup"
+    },
+    "openSourceCode": "open source code.",
+    "@openSourceCode": {
+        "description": "Text shown in the game info popup"
+    },
+    "otherLinks": "Liên kết khác",
+    "@otherLinks": {
+        "description": "Text shown in the game info popup"
+    },
+    "flutterGames": "Flutter Games",
+    "@flutterGames": {
+        "description": "Text shown in the game info popup"
+    },
+    "privacyPolicy": "Chính sách bảo mật",
+    "@privacyPolicy": {
+        "description": "Text shown in the game info popup"
+    },
+    "termsOfService": "Điều khoản dịch vụ",
+    "@termsOfService": {
+        "description": "Text shown in the game info popup"
+    },
+    "enter": "Nộp điểm",
+    "@enter": {
+        "description": "Text shown in the score submission page"
+    },
+    "initialsBlacklistedMessage": "Giữ nguyên PG, sử dụng chữ viết tắt khác",
+    "@initialsBlacklistedMessage": {
+        "description": "Text shown in the score submission page"
+    },
+    "initialsErrorMessage": "Vui lòng nhập ba chữ cái viết tắt",
+    "@initialsErrorMessage": {
+        "description": "Text shown in the score submission page"
+    },
+    "scoreSubmissionErrorMessage": "Đã có lỗi khi gửi điểm của bạn",
+    "@scoreSubmissionErrorMessage": {
+        "description": "Text shown in the score submission page"
+    },
+    "shareYourScore": "Chia sẻ điểm Super Dash của bạn và thách thức bạn bè làm nhiều hơn!",
+    "@shareYourScore": {
+        "description": "Text shown in the share page"
+    },
+    "pts": "Điểm",
+    "@pts": {
+        "description": "Text shown in the share page"
+    },
+    "shareOn": "Chia sẻ trên:",
+    "@shareOn": {
+        "description": "Text shown in the share page"
+    },
+    "share": "Chia sẻ",
+    "@share": {
+        "description": "Text shown in the share page"
+    },
+    "seeTheRanking": "Xem bảng xếp hạng",
+    "@seeTheRanking": {
+        "description": "Text shown in the share page"
+    },
+    "gameOver": "Trò chơi kết thúc!",
+    "@gameOver": {
+        "description": "Text shown in the game over page"
+    },
+    "betterLuckNextTime": "Chúc bạn may mắn lần sau nhé.",
+    "@betterLuckNextTime": {
+        "description": "Text shown in the game over page"
+    },
+    "totalScore": "Tổng điểm",
+    "@totalScore": {
+        "description": "Text shown in the game over page"
+    },
+    "submitScore": "Nộp điểm",
+    "@submitScore": {
+        "description": "Text shown in the game over page"
+    },
+    "playAgain": "Chơi lại",
+    "@playAgain": {
+        "description": "Text shown in the game over page"
+    },
+    "gameScoreLabel": "{points} điểm",
+    "@gameScoreLabel": {
+        "description": "Text shown on the game score label",
+        "placeholders": {
+            "points": {
+                "type": "int"
+            }
+        }
+    },
+    "leaderboardPageLeaderboardHeadline": "Bảng xếp hạng",
+    "@leaderboardPageLeaderboardHeadline": {
+        "description": "Text shown in the leaderboard page headline"
+    },
+    "leaderboardPageLeaderboardErrorText": "There was an error while fetching the leaderboard.",
+    "@leaderboardPageLeaderboardErrorText": {
+        "description": "Text shown in the leaderboard page when there is an error"
+    },
+    "leaderboardPageLeaderboardNoEntries": "Không có bản ghi",
+    "@leaderboardPageLeaderboardNoEntries": {
+        "description": "Text shown in the leaderboard page when there are no entries"
+    },
+    "leaderboardPageGoBackButton": "Quay lại",
+    "@leaderboardPageGoBackButton": {
+        "description": "Text shown in the leaderboard page go back button"
+    },
+    "tapToStart": "Ấn vào space để nhảy",
+    "@tapToStart": {
+        "description": "Text shown in the game page"
+    },
+    "downloadAppMessage": "Fly into Super Dash, avoid the bugs, collect points, and see how far you can go!",
+    "@downloadAppMessage": {
+        "description": "Text shown in the download mobile app page"
+    },
+    "downloadAppLabel": "Tải ứng dụng",
+    "@downloadAppLabel": {
+        "description": "Button lable for the app download"
+    }
+}

@@ -1,8 +1,6 @@
 import 'package:app_ui/app_ui.dart';
 import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:super_dash/l10n/l10n.dart';
@@ -17,63 +15,22 @@ class InitialsFormView extends StatefulWidget {
 }
 
 class _InitialsFormViewState extends State<InitialsFormView> {
-  final focusNodes = List.generate(3, (_) => FocusNode());
-
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
     return BlocConsumer<ScoreBloc, ScoreState>(
-      listener: (context, state) {
-        if (state.initialsStatus == InitialsFormStatus.blacklisted) {
-          focusNodes.last.requestFocus();
-        }
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         if (state.initialsStatus == InitialsFormStatus.failure) {
           return const _ErrorBody();
         }
         return Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _InitialFormField(
-                  0,
-                  focusNode: focusNodes[0],
-                  key: ObjectKey(focusNodes[0]),
-                  onChanged: (index, value) {
-                    _onInitialChanged(context, value, index);
-                  },
-                  onBackspace: (index) {
-                    _onInitialChanged(context, '', index, isBackspace: true);
-                  },
-                ),
-                const SizedBox(width: 16),
-                _InitialFormField(
-                  1,
-                  key: ObjectKey(focusNodes[1]),
-                  focusNode: focusNodes[1],
-                  onChanged: (index, value) {
-                    _onInitialChanged(context, value, index);
-                  },
-                  onBackspace: (index) {
-                    _onInitialChanged(context, '', index, isBackspace: true);
-                  },
-                ),
-                const SizedBox(width: 16),
-                _InitialFormField(
-                  2,
-                  key: ObjectKey(focusNodes[2]),
-                  focusNode: focusNodes[2],
-                  onChanged: (index, value) {
-                    _onInitialChanged(context, value, index);
-                  },
-                  onBackspace: (index) {
-                    _onInitialChanged(context, '', index, isBackspace: true);
-                  },
-                ),
-              ],
+            _InitialFormField(
+              onChanged: (value) {
+                _onInitialChanged(context, value);
+              },
             ),
             const SizedBox(height: 24),
             if (state.initialsStatus == InitialsFormStatus.loading)
@@ -96,52 +53,21 @@ class _InitialsFormViewState extends State<InitialsFormView> {
     );
   }
 
-  void _onInitialChanged(
-    BuildContext context,
-    String value,
-    int index, {
-    bool isBackspace = false,
-  }) {
+  void _onInitialChanged(BuildContext context, String value) {
     var text = value;
     if (text == emptyCharacter) {
       text = '';
     }
-
-    context
-        .read<ScoreBloc>()
-        .add(ScoreInitialsUpdated(character: text, index: index));
-    if (text.isNotEmpty) {
-      if (index < focusNodes.length - 1) {
-        focusNodes[index].unfocus();
-        FocusScope.of(context).requestFocus(focusNodes[index + 1]);
-      }
-    } else if (index > 0) {
-      if (isBackspace) {
-        setState(() {
-          focusNodes[index - 1] = FocusNode();
-        });
-
-        SchedulerBinding.instance.scheduleFrameCallback((timeStamp) {
-          FocusScope.of(context).requestFocus(focusNodes[index - 1]);
-        });
-      }
-    }
+    context.read<ScoreBloc>().add(ScoreInitialsUpdated(character: text));
   }
 }
 
 class _InitialFormField extends StatefulWidget {
-  const _InitialFormField(
-    this.index, {
+  const _InitialFormField({
     required this.onChanged,
-    required this.focusNode,
-    required this.onBackspace,
-    super.key,
   });
 
-  final int index;
-  final void Function(int, String) onChanged;
-  final void Function(int) onBackspace;
-  final FocusNode focusNode;
+  final void Function(String) onChanged;
 
   @override
   State<_InitialFormField> createState() => _InitialFormFieldState();
@@ -160,29 +86,10 @@ class _InitialFormFieldState extends State<_InitialFormField> {
   @override
   void initState() {
     super.initState();
-    widget.focusNode.addListener(onFocusChanged);
-  }
-
-  void onFocusChanged() {
-    if (mounted) {
-      final hadFocus = hasFocus;
-      final willFocus = widget.focusNode.hasPrimaryFocus;
-
-      setState(() {
-        hasFocus = willFocus;
-      });
-
-      if (!hadFocus && willFocus) {
-        final text = controller.text;
-        final selection = TextSelection.collapsed(offset: text.length);
-        controller.selection = selection;
-      }
-    }
   }
 
   @override
   void dispose() {
-    widget.focusNode.removeListener(onFocusChanged);
     controller.dispose();
     super.dispose();
   }
@@ -202,37 +109,19 @@ class _InitialFormFieldState extends State<_InitialFormField> {
         ],
       ),
       border: Border.all(
-        color: blacklisted
-            ? const Color(0xFFF3777E)
-            : widget.focusNode.hasPrimaryFocus
-                ? const Color(0xFF77F3B7)
-                : Colors.white24,
+        color: blacklisted ? const Color(0xFFF3777E) : const Color(0xFF77F3B7),
         width: 2,
       ),
     );
 
     return Container(
-      width: 64,
-      height: 72,
+      margin: const EdgeInsets.only(left: 48, right: 48),
       decoration: decoration,
       child: TextFormField(
-        key: Key('initial_form_field_${widget.index}'),
         controller: controller,
-        autofocus: widget.index == 0,
-        focusNode: widget.focusNode,
-        showCursor: false,
+        showCursor: true,
         textInputAction: TextInputAction.next,
-        inputFormatters: [
-          BackspaceFormatter(
-            onBackspace: () => widget.onBackspace(widget.index),
-          ),
-          FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]')),
-          UpperCaseTextFormatter(),
-          JustOneCharacterFormatter((value) {
-            widget.onChanged(widget.index, value);
-          }),
-          EmptyCharacterAtEndFormatter(),
-        ],
+        keyboardType: TextInputType.phone,
         style: textTheme.displayMedium,
         textCapitalization: TextCapitalization.characters,
         decoration: const InputDecoration(
@@ -240,7 +129,7 @@ class _InitialFormFieldState extends State<_InitialFormField> {
         ),
         textAlign: TextAlign.center,
         onChanged: (value) {
-          widget.onChanged(widget.index, value);
+          widget.onChanged(value);
         },
       ),
     );

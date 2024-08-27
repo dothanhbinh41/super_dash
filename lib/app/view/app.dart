@@ -63,6 +63,7 @@ class App extends StatelessWidget {
           supportedLocales: AppLocalizations.supportedLocales,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           home: isTesting ? const MapTesterView() : const GameIntroPage(),
+          locale: const Locale.fromSubtags(languageCode: 'vi'),
         ),
       ),
     );
