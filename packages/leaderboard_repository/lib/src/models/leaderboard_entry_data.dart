@@ -22,6 +22,7 @@ class LeaderboardEntryData extends Equatable {
   /// {@macro leaderboard_entry_data}
   const LeaderboardEntryData({
     required this.playerInitials,
+    required this.phoneNumber,
     required this.score,
   });
 
@@ -39,6 +40,12 @@ class LeaderboardEntryData extends Equatable {
   @JsonKey(name: 'playerInitials')
   final String playerInitials;
 
+  /// Player's chosen phoneNumber for [LeaderboardEntryData].
+  ///
+  /// Example: 'phoneNumber'.
+  @JsonKey(name: 'phoneNumber')
+  final String phoneNumber;
+
   /// Score for [LeaderboardEntryData].
   ///
   /// Example: 1500.
@@ -46,11 +53,9 @@ class LeaderboardEntryData extends Equatable {
   final int score;
 
   /// An empty [LeaderboardEntryData] object.
-  static const empty = LeaderboardEntryData(
-    score: 0,
-    playerInitials: '',
-  );
+  static const empty =
+      LeaderboardEntryData(score: 0, playerInitials: '', phoneNumber: '');
 
   @override
-  List<Object?> get props => [playerInitials, score];
+  List<Object?> get props => [playerInitials, score, phoneNumber];
 }

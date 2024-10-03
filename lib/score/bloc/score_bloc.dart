@@ -60,9 +60,7 @@ class ScoreBloc extends Bloc<ScoreEvent, ScoreState> {
       try {
         await _leaderboardRepository.addLeaderboardEntry(
           LeaderboardEntryData(
-            playerInitials: state.initials,
-            score: score,
-          ),
+              playerInitials: state.initials, score: score, phoneNumber: ""),
         );
 
         emit(state.copyWith(status: ScoreStatus.scoreOverview));

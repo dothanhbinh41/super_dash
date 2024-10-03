@@ -1,5 +1,4 @@
 import 'package:app_ui/app_ui.dart';
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
@@ -16,7 +15,6 @@ class App extends StatelessWidget {
     required this.audioController,
     required this.settingsController,
     required this.shareController,
-    required this.authenticationRepository,
     required this.leaderboardRepository,
     this.isTesting = false,
     super.key,
@@ -26,7 +24,6 @@ class App extends StatelessWidget {
   final AudioController audioController;
   final SettingsController settingsController;
   final ShareController shareController;
-  final AuthenticationRepository authenticationRepository;
   final LeaderboardRepository leaderboardRepository;
 
   @override
@@ -48,9 +45,6 @@ class App extends StatelessWidget {
           ),
           RepositoryProvider<ShareController>.value(
             value: shareController,
-          ),
-          RepositoryProvider<AuthenticationRepository>.value(
-            value: authenticationRepository..signInAnonymously(),
           ),
           RepositoryProvider<LeaderboardRepository>.value(
             value: leaderboardRepository,
