@@ -19,10 +19,8 @@ dependencies:
   file_selector: ^1.0.1
   firebase_analytics: ^10.8.7
   firebase_auth: ^4.17.6
-  firebase_core: ^2.25.5
-  flame: ^1.10.0
-  flame_behaviors: ^1.0.0
-  flame_tiled: ^1.15.0
+  firebase_core: ^2.25.5 
+  flame_behaviors: ^1.0.0 
   flow_builder: ^0.0.9
   flutter:
     sdk: flutter
@@ -35,7 +33,7 @@ dependencies:
     path: packages/leaderboard_repository
   leap: ^0.2.1
   logging: ^1.2.0
-  ordered_set: ^5.0.2
+  ordered_set: ^6.0.0
   path: ^1.8.3
   pathxp: ^0.4.0
   provider: ^6.0.5
@@ -53,6 +51,11 @@ dev_dependencies:
   very_good_analysis: ^5.0.0
 
 dependency_overrides:
+  flame:
+    git:
+      url: https://github.com/flame-engine/flame.git
+      ref: main
+      path: packages/flame
   flame_tiled:
     git:
       url: https://github.com/flame-engine/flame.git
