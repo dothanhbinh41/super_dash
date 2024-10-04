@@ -31,11 +31,7 @@ class LeaderboardApi {
   Future<Response<dynamic>> saveScore(LeaderboardEntryData data) {
     return dio.post(
       '/super-dash/cambridgeGameUser/score',
-      data: {
-        'phone':
-            data.phoneNumber.isEmpty ? data.playerInitials : data.phoneNumber,
-        'score': data.score
-      },
+      data: {'phone': data.phoneNumber, 'score': data.score},
     );
   }
 }
