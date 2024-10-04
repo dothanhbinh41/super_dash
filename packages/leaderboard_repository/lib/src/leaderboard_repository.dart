@@ -46,15 +46,7 @@ class LeaderboardRepository {
         playerInitials: entry.playerInitials,
         score: score,
         rank: entry.rank);
-    final leaderboard = await _fetchLeaderboardSortedByScore();
-    if (leaderboard.length < 10) {
-      await _saveScore(saveEntry);
-    } else {
-      final tenthPositionScore = leaderboard[9].score;
-      if (saveEntry.score > tenthPositionScore) {
-        await _saveScore(entry);
-      }
-    }
+    await _saveScore(saveEntry);
   }
 
   Future<List<LeaderboardEntryData>> _fetchLeaderboardSortedByScore() {
