@@ -212,5 +212,9 @@
     "downloadAppLabel": "Download the app",
     "@downloadAppLabel": {
         "description": "Button lable for the app download"
+    },
+    "goBackHome": "Go back home",
+    "@goBackHome": {
+        "description": "Go back home page"
     }
 }

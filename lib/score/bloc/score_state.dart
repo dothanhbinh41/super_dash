@@ -5,6 +5,7 @@ enum ScoreStatus {
   inputInitials,
   scoreOverview,
   leaderboard,
+  goHome,
 }
 
 enum InitialsFormStatus {

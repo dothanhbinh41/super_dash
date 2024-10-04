@@ -7,6 +7,7 @@ import 'package:super_dash/game/game.dart';
 import 'package:super_dash/game_intro/game_intro.dart';
 import 'package:super_dash/gen/assets.gen.dart';
 import 'package:super_dash/l10n/l10n.dart';
+import 'package:super_dash/leaderboard/leaderboard.dart';
 import 'package:super_dash/score/score.dart';
 import 'package:super_dash/utils/utils.dart';
 
@@ -24,7 +25,7 @@ class GameOverPage extends StatelessWidget {
     final l10n = context.l10n;
     final textTheme = Theme.of(context).textTheme;
     const titleColor = Color(0xFF18274C);
-
+    context.read<ScoreBloc>().add(const ScoreInitialsSubmitted());
     return PageWithBackground(
       background: const GameBackground(),
       child: DecoratedBox(
@@ -64,9 +65,25 @@ class GameOverPage extends StatelessWidget {
             const _ScoreWidget(),
             const Spacer(flex: 4),
             GameElevatedButton(
-              label: l10n.submitScore,
+              label: l10n.goBackHome,
+              gradient: const LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0xFF103B9B),
+                  Color(0xFF0195F0),
+                ],
+              ),
               onPressed: () {
-                context.read<ScoreBloc>().add(const ScoreSubmitted());
+                // Navigator.of(context).push(GameIntroPage.route());
+                context.read<ScoreBloc>().add(const ScoreGoHomeRequested());
+              },
+            ),
+            const Spacer(flex: 3),
+            GameElevatedButton(
+              label: l10n.seeTheRanking,
+              onPressed: () {
+                Navigator.of(context).push(LeaderboardPage.route());
               },
             ),
             const Spacer(flex: 3),

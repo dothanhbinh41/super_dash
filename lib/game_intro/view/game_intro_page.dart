@@ -1,11 +1,28 @@
+import 'dart:ui';
+
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:super_dash/game/game.dart';
 import 'package:super_dash/game_intro/game_intro.dart';
+import 'package:super_dash/game_intro/view/game_info_input_dialog.dart';
 import 'package:super_dash/gen/assets.gen.dart';
 import 'package:super_dash/l10n/l10n.dart';
 
 class GameIntroPage extends StatefulWidget {
+  static PageRoute<void> route() {
+    return HeroDialogRoute(
+      builder: (_) => BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+        child: const GameIntroPage(),
+      ),
+    );
+  }
+
+  static Page<void> page() {
+    return const MaterialPage(
+      child: GameIntroPage(),
+    );
+  }
+
   const GameIntroPage({super.key});
 
   @override
@@ -68,7 +85,10 @@ class _IntroPage extends StatelessWidget {
             const SizedBox(height: 32),
             GameElevatedButton(
               label: l10n.gameIntroPagePlayButtonText,
-              onPressed: () => Navigator.of(context).push(Game.route()),
+              onPressed: () {
+                Navigator.of(context).push(GameInfoInputDialog.route());
+                // Navigator.of(context).push(Game.route());
+              },
             ),
             const Spacer(),
             const Row(

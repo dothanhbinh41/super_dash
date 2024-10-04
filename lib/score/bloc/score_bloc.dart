@@ -15,6 +15,7 @@ class ScoreBloc extends Bloc<ScoreEvent, ScoreState> {
     on<ScoreInitialsUpdated>(_onScoreInitialsUpdated);
     on<ScoreInitialsSubmitted>(_onScoreInitialsSubmitted);
     on<ScoreLeaderboardRequested>(_onScoreLeaderboardRequested);
+    on<ScoreGoHomeRequested>(_onGoHomeRequested);
   }
 
   final int score;
@@ -51,24 +52,9 @@ class ScoreBloc extends Bloc<ScoreEvent, ScoreState> {
     ScoreInitialsSubmitted event,
     Emitter<ScoreState> emit,
   ) async {
-    if (!_hasValidPattern()) {
-      emit(state.copyWith(initialsStatus: InitialsFormStatus.invalid));
-    } else if (_isInitialsBlacklisted()) {
-      emit(state.copyWith(initialsStatus: InitialsFormStatus.blacklisted));
-    } else {
-      emit(state.copyWith(initialsStatus: InitialsFormStatus.loading));
-      try {
-        await _leaderboardRepository.addLeaderboardEntry(
-          LeaderboardEntryData(
-              playerInitials: state.initials, score: score, phoneNumber: ""),
-        );
+    await _leaderboardRepository.addLeaderboardEntry(score);
 
-        emit(state.copyWith(status: ScoreStatus.scoreOverview));
-      } catch (e, s) {
-        addError(e, s);
-        emit(state.copyWith(initialsStatus: InitialsFormStatus.failure));
-      }
-    }
+    // emit(state.copyWith(status: ScoreStatus.scoreOverview));
   }
 
   bool _hasValidPattern() {
@@ -88,6 +74,17 @@ class ScoreBloc extends Bloc<ScoreEvent, ScoreState> {
     emit(
       state.copyWith(
         status: ScoreStatus.leaderboard,
+      ),
+    );
+  }
+
+  void _onGoHomeRequested(
+    ScoreGoHomeRequested event,
+    Emitter<ScoreState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        status: ScoreStatus.goHome,
       ),
     );
   }

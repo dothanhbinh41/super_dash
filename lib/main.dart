@@ -13,6 +13,7 @@ import 'package:super_dash/settings/persistence/persistence.dart';
 import 'package:super_dash/settings/settings.dart';
 import 'package:super_dash/share/share.dart';
 
+final leaderboardRepository = LeaderboardRepository();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -31,8 +32,6 @@ void main() async {
   final share = ShareController(
     gameUrl: 'https://endless-runner-9481713-383737.web.app/',
   );
-
-  final leaderboardRepository = LeaderboardRepository();
 
   unawaited(
     bootstrap(

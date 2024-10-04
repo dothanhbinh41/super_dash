@@ -16,12 +16,13 @@ final class LeaderboardLoading extends LeaderboardState {
 }
 
 final class LeaderboardLoaded extends LeaderboardState {
-  const LeaderboardLoaded({required this.entries});
+  const LeaderboardLoaded({required this.entries, required this.current});
 
   final List<LeaderboardEntryData> entries;
+  final LeaderboardEntryData current;
 
   @override
-  List<Object> get props => [entries];
+  List<Object> get props => [entries, current];
 }
 
 final class LeaderboardError extends LeaderboardState {

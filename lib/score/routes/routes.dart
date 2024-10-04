@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:super_dash/game_intro/game_intro.dart';
 import 'package:super_dash/leaderboard/leaderboard.dart';
 import 'package:super_dash/score/game_over/game_over.dart';
 import 'package:super_dash/score/score.dart';
@@ -12,5 +13,6 @@ List<Page<void>> onGenerateScorePages(
     ScoreStatus.inputInitials => [InputInitialsPage.page()],
     ScoreStatus.scoreOverview => [ScoreOverviewPage.page()],
     ScoreStatus.leaderboard => [LeaderboardPage.page()],
+    ScoreStatus.goHome => [GameIntroPage.page()],
   };
 }

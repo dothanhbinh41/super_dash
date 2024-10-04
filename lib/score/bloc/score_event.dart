@@ -23,3 +23,7 @@ final class ScoreInitialsSubmitted extends ScoreEvent {
 final class ScoreLeaderboardRequested extends ScoreEvent {
   const ScoreLeaderboardRequested();
 }
+
+final class ScoreGoHomeRequested extends ScoreEvent {
+  const ScoreGoHomeRequested();
+}

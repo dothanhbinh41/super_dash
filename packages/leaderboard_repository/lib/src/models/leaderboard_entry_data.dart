@@ -24,6 +24,7 @@ class LeaderboardEntryData extends Equatable {
     required this.playerInitials,
     required this.phoneNumber,
     required this.score,
+    required this.rank,
   });
 
   /// Factory which converts a [Map] into a [LeaderboardEntryData].
@@ -52,9 +53,12 @@ class LeaderboardEntryData extends Equatable {
   @JsonKey(name: 'score')
   final int score;
 
+  @JsonKey(name: 'rank')
+  final int rank;
+
   /// An empty [LeaderboardEntryData] object.
-  static const empty =
-      LeaderboardEntryData(score: 0, playerInitials: '', phoneNumber: '');
+  static const empty = LeaderboardEntryData(
+      score: 0, playerInitials: '', phoneNumber: '', rank: 0);
 
   @override
   List<Object?> get props => [playerInitials, score, phoneNumber];

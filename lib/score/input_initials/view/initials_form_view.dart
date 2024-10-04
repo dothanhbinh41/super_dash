@@ -1,55 +1,42 @@
 import 'package:app_ui/app_ui.dart';
 import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:super_dash/l10n/l10n.dart';
 import 'package:super_dash/score/input_initials/formatters/formatters.dart';
 import 'package:super_dash/score/score.dart';
 
 class InitialsFormView extends StatefulWidget {
-  const InitialsFormView({super.key});
+  const InitialsFormView({super.key, this.hint});
+  final String? hint;
 
   @override
   State<InitialsFormView> createState() => _InitialsFormViewState();
 }
 
 class _InitialsFormViewState extends State<InitialsFormView> {
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return BlocConsumer<ScoreBloc, ScoreState>(
-      listener: (context, state) {},
-      builder: (context, state) {
-        if (state.initialsStatus == InitialsFormStatus.failure) {
-          return const _ErrorBody();
-        }
-        return Column(
-          children: [
-            _InitialFormField(
-              onChanged: (value) {
-                _onInitialChanged(context, value);
-              },
-            ),
-            const SizedBox(height: 24),
-            if (state.initialsStatus == InitialsFormStatus.loading)
-              const CircularProgressIndicator(color: Colors.white)
-            else
-              GameElevatedButton(
-                label: l10n.enter,
-                onPressed: () {
-                  context.read<ScoreBloc>().add(const ScoreInitialsSubmitted());
-                },
-              ),
-            const SizedBox(height: 16),
-            if (state.initialsStatus == InitialsFormStatus.blacklisted)
-              _ErrorTextWidget(l10n.initialsBlacklistedMessage)
-            else if (state.initialsStatus == InitialsFormStatus.invalid)
-              _ErrorTextWidget(l10n.initialsErrorMessage),
-          ],
-        );
-      },
+    return Column(
+      children: [
+        InitialFormField(
+          hint: widget.hint,
+          onChanged: (value) {
+            _onInitialChanged(context, value);
+          },
+        ),
+        const SizedBox(height: 24),
+        if (isLoading)
+          const CircularProgressIndicator(color: Colors.white)
+        else
+          GameElevatedButton(
+            label: l10n.enter,
+            onPressed: () {},
+          ),
+      ],
     );
   }
 
@@ -58,30 +45,27 @@ class _InitialsFormViewState extends State<InitialsFormView> {
     if (text == emptyCharacter) {
       text = '';
     }
-    context.read<ScoreBloc>().add(ScoreInitialsUpdated(character: text));
+    // context.read<ScoreBloc>().add(ScoreInitialsUpdated(character: text));
   }
 }
 
-class _InitialFormField extends StatefulWidget {
-  const _InitialFormField({
-    required this.onChanged,
-  });
-
-  final void Function(String) onChanged;
-
+class InitialFormField extends StatefulWidget {
+  const InitialFormField(
+      {this.onChanged,
+      super.key,
+      this.hint,
+      this.keyboardType,
+      this.controller});
+  final TextInputType? keyboardType;
+  final String? hint;
+  final void Function(String)? onChanged;
+  final TextEditingController? controller;
   @override
-  State<_InitialFormField> createState() => _InitialFormFieldState();
+  State<InitialFormField> createState() => _InitialFormFieldState();
 }
 
-class _InitialFormFieldState extends State<_InitialFormField> {
-  late final TextEditingController controller =
-      TextEditingController.fromValue(lastValue);
-
+class _InitialFormFieldState extends State<InitialFormField> {
   bool hasFocus = false;
-  TextEditingValue lastValue = const TextEditingValue(
-    text: emptyCharacter,
-    selection: TextSelection.collapsed(offset: 1),
-  );
 
   @override
   void initState() {
@@ -90,16 +74,13 @@ class _InitialFormFieldState extends State<_InitialFormField> {
 
   @override
   void dispose() {
-    controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final bloc = context.watch<ScoreBloc>();
-    final blacklisted =
-        bloc.state.initialsStatus == InitialsFormStatus.blacklisted;
+
     final decoration = BoxDecoration(
       borderRadius: BorderRadius.circular(16),
       gradient: const LinearGradient(
@@ -109,35 +90,41 @@ class _InitialFormFieldState extends State<_InitialFormField> {
         ],
       ),
       border: Border.all(
-        color: blacklisted ? const Color(0xFFF3777E) : const Color(0xFF77F3B7),
+        color: const Color(0xFF77F3B7),
         width: 2,
       ),
     );
 
     return Container(
-      margin: const EdgeInsets.only(left: 48, right: 48),
+      margin: const EdgeInsets.only(left: 16, right: 16),
       decoration: decoration,
       child: TextFormField(
-        controller: controller,
+        controller: widget.controller,
         showCursor: true,
-        textInputAction: TextInputAction.next,
-        keyboardType: TextInputType.phone,
-        style: textTheme.displayMedium,
-        textCapitalization: TextCapitalization.characters,
-        decoration: const InputDecoration(
+        textAlignVertical: TextAlignVertical.center,
+        textInputAction: TextInputAction.done,
+        keyboardType: widget.keyboardType ?? TextInputType.text,
+        style: textTheme.displaySmall?.copyWith(fontSize: 32),
+        decoration: InputDecoration(
           border: InputBorder.none,
+          alignLabelWithHint: true,
+          hintText: widget.hint,
+          hintStyle: textTheme.titleLarge?.copyWith(
+            fontSize: 28,
+            color: const Color(0x4077F3B7),
+          ),
         ),
         textAlign: TextAlign.center,
         onChanged: (value) {
-          widget.onChanged(value);
+          widget.onChanged?.call(value);
         },
       ),
     );
   }
 }
 
-class _ErrorBody extends StatelessWidget {
-  const _ErrorBody();
+class ErrorBody extends StatelessWidget {
+  const ErrorBody({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +132,7 @@ class _ErrorBody extends StatelessWidget {
     return Column(
       children: [
         const SizedBox(height: 40),
-        _ErrorTextWidget(l10n.scoreSubmissionErrorMessage),
+        ErrorTextWidget(l10n.scoreSubmissionErrorMessage),
         const SizedBox(height: 32),
         GameElevatedButton.icon(
           label: l10n.playAgain,
@@ -159,8 +146,8 @@ class _ErrorBody extends StatelessWidget {
   }
 }
 
-class _ErrorTextWidget extends StatelessWidget {
-  const _ErrorTextWidget(this.text);
+class ErrorTextWidget extends StatelessWidget {
+  const ErrorTextWidget(this.text, {super.key});
 
   final String text;
 

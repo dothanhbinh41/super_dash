@@ -9,7 +9,7 @@ void main() {
     };
 
     const leaderboardEntry = LeaderboardEntryData(
-        score: 1500, playerInitials: 'ABC', phoneNumber: "");
+        score: 1500, playerInitials: 'ABC', phoneNumber: "", rank: 0);
 
     test('can be instantiated', () {
       const leaderboardEntry = LeaderboardEntryData.empty;

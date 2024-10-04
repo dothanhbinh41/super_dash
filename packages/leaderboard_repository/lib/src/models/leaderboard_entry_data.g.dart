@@ -11,6 +11,7 @@ LeaderboardEntryData _$LeaderboardEntryDataFromJson(
     LeaderboardEntryData(
         playerInitials: json['playerInitials'] as String,
         score: json['score'] as int,
+        rank: json['rank'] as int,
         phoneNumber: json['phoneNumber'] as String);
 
 Map<String, dynamic> _$LeaderboardEntryDataToJson(
@@ -18,5 +19,6 @@ Map<String, dynamic> _$LeaderboardEntryDataToJson(
     <String, dynamic>{
       'playerInitials': instance.playerInitials,
       'score': instance.score,
-      'phoneNumber': instance.phoneNumber
+      'phoneNumber': instance.phoneNumber,
+      "rank": instance.rank
     };

@@ -11,7 +11,6 @@ import 'package:super_dash/game/game.dart';
 import 'package:super_dash/gen/assets.gen.dart';
 import 'package:super_dash/l10n/l10n.dart';
 import 'package:super_dash/leaderboard/bloc/leaderboard_bloc.dart';
-import 'package:super_dash/score/score.dart';
 
 enum LeaderboardStep { gameIntro, gameScore }
 
@@ -80,25 +79,18 @@ class LeaderboardView extends StatelessWidget {
             const Leaderboard(),
             const SizedBox(height: 20),
             Align(
-              child: switch (step) {
-                LeaderboardStep.gameIntro => GameElevatedButton(
-                    label: l10n.leaderboardPageGoBackButton,
-                    onPressed: Navigator.of(context).pop,
-                    gradient: const LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Color(0xFFA6C3DF),
-                        Color(0xFF79AACA),
-                      ],
-                    ),
-                  ),
-                LeaderboardStep.gameScore => GameElevatedButton.icon(
-                    label: l10n.playAgain,
-                    icon: const Icon(Icons.refresh, size: 16),
-                    onPressed: context.flow<ScoreState>().complete,
-                  ),
-              },
+              child: GameElevatedButton(
+                label: l10n.leaderboardPageGoBackButton,
+                onPressed: Navigator.of(context).pop,
+                gradient: const LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color(0xFFA6C3DF),
+                    Color(0xFF79AACA),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
@@ -136,8 +128,11 @@ class Leaderboard extends StatelessWidget {
           LeaderboardLoading() =>
             const Center(child: LeaderboardLoadingWidget()),
           LeaderboardError() => const Center(child: LeaderboardErrorWidget()),
-          LeaderboardLoaded(entries: final entries) =>
-            LeaderboardContent(entries: entries),
+          LeaderboardLoaded(entries: final entries, current: final current) =>
+            LeaderboardContent(
+              entries: entries,
+              current: current,
+            ),
         },
       ),
     );
@@ -200,15 +195,19 @@ class LeaderboardLoadingWidget extends StatelessWidget {
 class LeaderboardContent extends StatelessWidget {
   const LeaderboardContent({
     required this.entries,
+    required this.current,
     super.key,
   });
 
   final List<LeaderboardEntryData> entries;
+  final LeaderboardEntryData current;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = Theme.of(context);
+
+    final textTheme = theme.textTheme;
     return Stack(
       children: [
         Padding(
@@ -238,6 +237,7 @@ class LeaderboardContent extends StatelessWidget {
           right: 0,
           bottom: 0,
           child: Container(
+            padding: const EdgeInsets.only(top: 12),
             width: Leaderboard.width,
             height: Leaderboard.height * .2,
             decoration: BoxDecoration(
@@ -250,6 +250,38 @@ class LeaderboardContent extends StatelessWidget {
                   Colors.transparent,
                   Color(0xFF1B1B36),
                 ],
+              ),
+            ),
+            child: Visibility(
+              visible: current.phoneNumber.isNotEmpty,
+              child: ListTile(
+                contentPadding: const EdgeInsets.all(20),
+                leading: Text('#${current.rank}'),
+                title: Text(current.playerInitials),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if ([1, 2, 3].contains(current.rank)) ...[
+                      Icon(
+                        FontAwesomeIcons.trophy,
+                        size: 20,
+                        color: switch (current.rank) {
+                          1 => const Color(0xFFD4AF37),
+                          2 => const Color(0xFFC0C0C0),
+                          _ => const Color(0xFFCD7F32),
+                        },
+                      ),
+                      const SizedBox(width: 10),
+                    ],
+                    Text(l10n.gameScoreLabel(current.score)),
+                  ],
+                ),
+                titleTextStyle: textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+                leadingAndTrailingTextStyle: textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),

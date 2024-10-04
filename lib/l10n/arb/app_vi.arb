@@ -12,7 +12,7 @@
     "@gameInstructionsPageAutoRunTitle": {
         "description": "Text shown in the title of the auto run instruction of the Game Instructions Overlay"
     },
-    "gameInstructionsPageAutoRunDescription": "Welcome to Super Dash. In this game Dash runs automatically.",
+    "gameInstructionsPageAutoRunDescription": "Chào mừng tới Super Dash. Trong trò chơi chú chim sẽ tự động chạy.",
     "@gameInstructionsPageAutoRunDescription": {
         "description": "Text shown in the description of the auto run instruction of the Game Instructions Overlay"
     },
@@ -40,7 +40,7 @@
     "@gameInstructionsPagePowerfulWingsTitle": {
         "description": "Text shown in the title of the powerful wings instruction of the Game Instructions Overlay"
     },
-    "gameInstructionsPagePowerfulWingsDescription": "Thu thập lông vũ vàng để tăng sức mạnh cho Dash với Flutter. Khi đang ở giữa không trung, chạm để nhảy đôi và xem Dash bay!",
+    "gameInstructionsPagePowerfulWingsDescription": "Thu thập lông vũ vàng để tăng sức mạnh. Khi đang ở giữa không trung, chạm để nhảy đôi và xem Dash bay!",
     "@gameInstructionsPagePowerfulWingsDescription": {
         "description": "Text shown in the description of the powerful wings instruction of the Game Instructions Overlay"
     },
@@ -212,5 +212,9 @@
     "downloadAppLabel": "Tải ứng dụng",
     "@downloadAppLabel": {
         "description": "Button lable for the app download"
+    },
+    "goBackHome": "Về trang chủ",
+    "@goBackHome": {
+        "description": "Trở về trang chủ"
     }
 }

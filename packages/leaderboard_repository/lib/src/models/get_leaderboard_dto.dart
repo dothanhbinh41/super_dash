@@ -45,20 +45,24 @@ class LeaderboardDto {
     required this.name,
     required this.phone,
     required this.score,
+    required this.rank,
   });
 
   factory LeaderboardDto.fromJson(Map<String, dynamic> json) => LeaderboardDto(
         name: json['name'] as String,
         phone: json['phone'] as String,
         score: json['score'] as int,
+        rank: json['rank'] as int,
       );
   String name;
   String phone;
   int score;
+  int rank;
 
   Map<String, dynamic> toJson() => {
         'name': name,
         'phone': phone,
         'score': score,
+        'rank': rank,
       };
 }

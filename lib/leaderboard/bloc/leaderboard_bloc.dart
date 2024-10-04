@@ -22,7 +22,8 @@ class LeaderboardBloc extends Bloc<LeaderboardEvent, LeaderboardState> {
     try {
       emit(const LeaderboardLoading());
       final leaderboard = await _leaderboardRepository.fetchTop10Leaderboard();
-      emit(LeaderboardLoaded(entries: leaderboard));
+      final currentTop = await _leaderboardRepository.getCurrentTop();
+      emit(LeaderboardLoaded(entries: leaderboard, current: currentTop));
     } catch (e) {
       emit(const LeaderboardError());
     }
