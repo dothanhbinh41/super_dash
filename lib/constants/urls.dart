@@ -14,5 +14,5 @@ class Urls {
       'https://apps.apple.com/app/super-dash-flutter-game/id6473050393';
 
   static const playStoreLink =
-      'https://play.google.com/store/apps/details?id=com.verygoodventures.super_dash';
+      'https://play.google.com/store/apps/details?id=vn.edu.ieltsmentor.super_dash';
 }
