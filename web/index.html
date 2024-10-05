@@ -44,7 +44,6 @@
 
   <title>IELTS Mentor</title>
   <link rel="manifest" href="manifest.json">
-
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-67589403-11"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -173,8 +172,7 @@
       background: linear-gradient(170deg, rgba(255, 255, 255, 0.48), rgba(5, 181, 203, 0.56));
     }
   </style>
-  <script>
-    // The value below is injected by flutter build, do not touch.
+  <script> 
     var serviceWorkerVersion = null;
   </script>
 </head>
@@ -194,6 +192,8 @@
     </p>
     <div id="cookie-bar-button-border"><button id="confirm-cookies">Ok, got it</button></div>
   </div>
+  
+  <script src="flutter_bootstrap.js" async></script>
   <script>
     (function () {
       const cookieBar = document.querySelector("#cookie-bar");
@@ -278,12 +278,13 @@
             await injectScript(additionalScripts[i]);
           }
 
-          await injectScript("flutter.js");
+          await injectScript("flutter.js"); 
+
 
           // Download main.dart.js
-          _flutter.loader.loadEntrypoint({
-            serviceWorker: {
-              serviceWorkerVersion: serviceWorkerVersion,
+          _flutter.loader.load({
+            serviceWorkerSettings: {
+              serviceWorkerVersion: {{flutter_service_worker_version}}
             },
             onEntrypointLoaded: function (engineInitializer) {
               engineInitializer
