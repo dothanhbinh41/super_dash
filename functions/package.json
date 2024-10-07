@@ -12,12 +12,9 @@
         "node": "16"
     },
     "main": "index.js",
-    "dependencies": {
-        "firebase-admin": "^10.0.2",
-        "firebase-functions": "^3.18.0"
+    "dependencies": { 
     },
-    "devDependencies": {
-        "firebase-functions-test": "^0.2.0"
+    "devDependencies": { 
     },
     "private": true
 }
