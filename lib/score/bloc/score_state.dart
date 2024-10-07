@@ -6,6 +6,7 @@ enum ScoreStatus {
   scoreOverview,
   leaderboard,
   goHome,
+  loading
 }
 
 enum InitialsFormStatus {
@@ -20,7 +21,7 @@ enum InitialsFormStatus {
 // ignore: must_be_immutable
 class ScoreState extends Equatable {
   ScoreState({
-    this.status = ScoreStatus.gameOver,
+    this.status = ScoreStatus.loading,
     this.initials = '',
     this.initialsStatus = InitialsFormStatus.initial,
   });
@@ -43,4 +44,8 @@ class ScoreState extends Equatable {
 
   @override
   List<Object> get props => [status, initials, initialsStatus];
+}
+
+class LoadingScoreState extends ScoreState {
+  LoadingScoreState() : super(status: ScoreStatus.loading);
 }

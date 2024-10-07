@@ -20,12 +20,7 @@ class GameOverPage extends StatelessWidget {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final textTheme = Theme.of(context).textTheme;
-    const titleColor = Color(0xFF18274C);
-    context.read<ScoreBloc>().add(const ScoreInitialsSubmitted());
+  Widget container(Widget child) {
     return PageWithBackground(
       background: const GameBackground(),
       child: DecoratedBox(
@@ -37,75 +32,97 @@ class GameOverPage extends StatelessWidget {
                 isDesktop ? const Alignment(0, -.5) : Alignment.topCenter,
           ),
         ),
-        child: Column(
-          children: [
-            const Spacer(flex: 15),
-            Text(
-              l10n.gameOver,
-              style: textTheme.headlineMedium?.copyWith(
-                color: titleColor,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              l10n.betterLuckNextTime,
-              style: textTheme.bodyLarge?.copyWith(
-                color: titleColor,
-              ),
-            ),
-            const Spacer(flex: 4),
-            Text(
-              l10n.totalScore,
-              style: textTheme.bodyLarge?.copyWith(
-                color: titleColor,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const Spacer(flex: 2),
-            const _ScoreWidget(),
-            const Spacer(flex: 4),
-            GameElevatedButton(
-              label: l10n.goBackHome,
-              gradient: const LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Color(0xFF103B9B),
-                  Color(0xFF0195F0),
-                ],
-              ),
-              onPressed: () {
-                // Navigator.of(context).push(GameIntroPage.route());
-                context.read<ScoreBloc>().add(const ScoreGoHomeRequested());
-              },
-            ),
-            const Spacer(flex: 3),
-            GameElevatedButton(
-              label: l10n.seeTheRanking,
-              onPressed: () {
-                Navigator.of(context).push(LeaderboardPage.route());
-              },
-            ),
-            const Spacer(flex: 3),
-            GameElevatedButton.icon(
-              label: l10n.playAgain,
-              icon: const Icon(Icons.refresh, size: 16),
-              onPressed: context.flow<ScoreState>().complete,
-              gradient: const LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Color(0xFFA6C3DF),
-                  Color(0xFF79AACA),
-                ],
-              ),
-            ),
-            const Spacer(flex: 40),
-            const BottomBar(),
-            const SizedBox(height: 16),
-          ],
-        ),
+        child: child,
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final textTheme = Theme.of(context).textTheme;
+    const titleColor = Color(0xFF18274C);
+    context.read<ScoreBloc>().add(const ScoreInitialsSubmitted());
+    return BlocBuilder<ScoreBloc, ScoreState>(
+      builder: (context, state) {
+        switch (state) {
+          case LoadingScoreState():
+            return container(const Center(child: LeaderboardLoadingWidget()));
+          case ScoreState():
+            return container(
+              Column(
+                children: [
+                  const Spacer(flex: 15),
+                  Text(
+                    l10n.gameOver,
+                    style: textTheme.headlineMedium?.copyWith(
+                      color: titleColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    l10n.betterLuckNextTime,
+                    style: textTheme.bodyLarge?.copyWith(
+                      color: titleColor,
+                    ),
+                  ),
+                  const Spacer(flex: 4),
+                  Text(
+                    l10n.totalScore,
+                    style: textTheme.bodyLarge?.copyWith(
+                      color: titleColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Spacer(flex: 2),
+                  const _ScoreWidget(),
+                  const Spacer(flex: 4),
+                  GameElevatedButton(
+                    label: l10n.goBackHome,
+                    gradient: const LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color(0xFF103B9B),
+                        Color(0xFF0195F0),
+                      ],
+                    ),
+                    onPressed: () {
+                      // Navigator.of(context).push(GameIntroPage.route());
+                      context
+                          .read<ScoreBloc>()
+                          .add(const ScoreGoHomeRequested());
+                    },
+                  ),
+                  const Spacer(flex: 3),
+                  GameElevatedButton(
+                    label: l10n.seeTheRanking,
+                    onPressed: () {
+                      Navigator.of(context).push(LeaderboardPage.route());
+                    },
+                  ),
+                  const Spacer(flex: 3),
+                  GameElevatedButton.icon(
+                    label: l10n.playAgain,
+                    icon: const Icon(Icons.refresh, size: 16),
+                    onPressed: context.flow<ScoreState>().complete,
+                    gradient: const LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color(0xFFA6C3DF),
+                        Color(0xFF79AACA),
+                      ],
+                    ),
+                  ),
+                  const Spacer(flex: 40),
+                  const BottomBar(),
+                  const SizedBox(height: 16),
+                ],
+              ),
+            );
+        }
+      },
     );
   }
 }

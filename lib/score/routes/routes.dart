@@ -14,5 +14,6 @@ List<Page<void>> onGenerateScorePages(
     ScoreStatus.scoreOverview => [ScoreOverviewPage.page()],
     ScoreStatus.leaderboard => [LeaderboardPage.page()],
     ScoreStatus.goHome => [GameIntroPage.page()],
+    ScoreStatus.loading => [GameOverPage.page()],
   };
 }

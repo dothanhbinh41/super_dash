@@ -52,19 +52,15 @@ class ScoreBloc extends Bloc<ScoreEvent, ScoreState> {
     ScoreInitialsSubmitted event,
     Emitter<ScoreState> emit,
   ) async {
+    emit(
+      LoadingScoreState(),
+    );
     await _leaderboardRepository.addLeaderboardEntry(score);
-
-    // emit(state.copyWith(status: ScoreStatus.scoreOverview));
-  }
-
-  bool _hasValidPattern() {
-    final value = state.initials;
-    final res = value.isNotEmpty && initialsRegex.hasMatch(value);
-    return res;
-  }
-
-  bool _isInitialsBlacklisted() {
-    return _blacklist.contains(state.initials);
+    emit(
+      state.copyWith(
+        status: ScoreStatus.gameOver,
+      ),
+    );
   }
 
   void _onScoreLeaderboardRequested(
