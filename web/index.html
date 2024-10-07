@@ -185,13 +185,7 @@
   <div id="progress-bar">
     <div id="progress-indicator"></div>
   </div>
-  <div id="cookie-bar">
-    <p>
-      This site uses cookies from Google to deliver and enhance the quality of
-      its services and to analyze traffic. <link><a href="https://policies.google.com/technologies/cookies">Learn More.</a></link>
-    </p>
-    <div id="cookie-bar-button-border"><button id="confirm-cookies">Ok, got it</button></div>
-  </div>
+ 
   
   <script src="flutter_bootstrap.js" async></script>
   <script>
@@ -289,8 +283,7 @@
             onEntrypointLoaded: function (engineInitializer) {
               engineInitializer
                 .initializeEngine()
-                .then(async function (appRunner) {
-                  await hasUserAcceptedCookies;
+                .then(async function (appRunner) { 
                   window.addEventListener(
                     "flutter-first-frame",
                     function () {
