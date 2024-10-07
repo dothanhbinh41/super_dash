@@ -17,6 +17,7 @@ class AudioButton extends StatelessWidget {
       builder: (context, muted, child) => GameIconButton(
         icon: muted ? Icons.volume_off : Icons.volume_up,
         onPressed: context.read<SettingsController>().toggleMuted,
+        label: 'Âm thanh',
       ),
     );
   }
@@ -32,6 +33,7 @@ class LeaderboardButton extends StatelessWidget {
       size: 18,
       alignment: const Alignment(-0.3, 0),
       onPressed: () => Navigator.of(context).push(LeaderboardPage.route()),
+      label: 'Bảng xếp hạng',
     );
   }
 }
@@ -44,6 +46,7 @@ class InfoButton extends StatelessWidget {
     return GameIconButton(
       icon: Icons.info,
       onPressed: () => Navigator.of(context).push(GameInfoDialog.route()),
+      label: 'Thông tin',
     );
   }
 }
@@ -58,6 +61,7 @@ class HowToPlayButton extends StatelessWidget {
       onPressed: () => Navigator.of(context).push(
         GameInstructionsOverlay.route(),
       ),
+      label: 'Hướng dẫn',
     );
   }
 }

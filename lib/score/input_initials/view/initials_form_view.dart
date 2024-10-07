@@ -104,7 +104,7 @@ class _InitialFormFieldState extends State<InitialFormField> {
         textAlignVertical: TextAlignVertical.center,
         textInputAction: TextInputAction.done,
         keyboardType: widget.keyboardType ?? TextInputType.text,
-        style: textTheme.displaySmall?.copyWith(fontSize: 32),
+        style: textTheme.displaySmall?.copyWith(fontSize: 28),
         decoration: InputDecoration(
           border: InputBorder.none,
           alignLabelWithHint: true,

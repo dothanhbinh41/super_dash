@@ -8,6 +8,7 @@ import 'package:super_dash/gen/assets.gen.dart';
 import 'package:super_dash/l10n/l10n.dart';
 
 class GameIntroPage extends StatefulWidget {
+  const GameIntroPage({super.key});
   static PageRoute<void> route() {
     return HeroDialogRoute(
       builder: (_) => BackdropFilter(
@@ -23,8 +24,6 @@ class GameIntroPage extends StatefulWidget {
     );
   }
 
-  const GameIntroPage({super.key});
-
   @override
   State<GameIntroPage> createState() => _GameIntroPageState();
 }
@@ -34,6 +33,14 @@ class _GameIntroPageState extends State<GameIntroPage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     precacheImage(Assets.images.gameBackground.provider(), context);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Navigator.of(context).push(GameInfoDialog.route());
+    });
   }
 
   @override

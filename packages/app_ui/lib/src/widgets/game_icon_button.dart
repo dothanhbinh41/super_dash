@@ -13,11 +13,13 @@ class GameIconButton extends StatelessWidget {
     this.border,
     this.size,
     this.alignment,
+    this.label,
     super.key,
   });
 
   /// The icon to display.
   final IconData icon;
+  final String? label;
 
   /// The callback when the button is pressed.
   final VoidCallback? onPressed;
@@ -47,24 +49,35 @@ class GameIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TraslucentBackground(
-      gradient: gradient ?? _defaultGradient.colors,
-      border: border ?? _defaultBorder,
-      child: InkWell(
-        onTap: onPressed,
-        borderRadius: BorderRadius.circular(100),
-        child: Container(
-          width: 52,
-          height: 52,
-          padding: const EdgeInsets.all(14),
-          alignment: alignment ?? Alignment.center,
-          child: Icon(
-            icon,
-            size: size ?? 24,
-            color: Colors.white,
+    return Column(
+      children: [
+        TraslucentBackground(
+          gradient: gradient ?? _defaultGradient.colors,
+          border: border ?? _defaultBorder,
+          child: InkWell(
+            onTap: onPressed,
+            borderRadius: BorderRadius.circular(100),
+            child: Container(
+              width: 52,
+              height: 52,
+              padding: const EdgeInsets.all(14),
+              alignment: alignment ?? Alignment.center,
+              child: Icon(
+                icon,
+                size: size ?? 24,
+                color: Colors.white,
+              ),
+            ),
           ),
         ),
-      ),
+        Visibility(
+          visible: label != null,
+          child: Container(
+            margin: const EdgeInsets.only(top: 4),
+            child: Text(label ?? ''),
+          ),
+        ),
+      ],
     );
   }
 }

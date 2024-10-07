@@ -25,6 +25,7 @@ class GameInfoDialog extends StatelessWidget {
       decorationColor: highlightColor,
     );
     return AppDialog(
+      showCloseButton: false,
       border: Border.all(color: Colors.white24),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -113,7 +114,14 @@ class GameInfoDialog extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 40),
+          const SizedBox(height: 16),
+          GameElevatedButton(
+            label: 'Tiếp tục',
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          const SizedBox(height: 16),
         ],
       ),
     );
