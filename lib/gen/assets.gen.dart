@@ -20,6 +20,12 @@ class $AssetsImagesGen {
   AssetGenImage get avoidBugsInstruction =>
       const AssetGenImage('assets/images/avoid_bugs_instruction.png');
 
+  /// File path: assets/images/bag.png
+  AssetGenImage get bag => const AssetGenImage('assets/images/bag.png');
+
+  /// File path: assets/images/bear.png
+  AssetGenImage get bear => const AssetGenImage('assets/images/bear.png');
+
   /// File path: assets/images/collect_eggs_acorns_instruction.png
   AssetGenImage get collectEggsAcornsInstruction =>
       const AssetGenImage('assets/images/collect_eggs_acorns_instruction.png');
@@ -42,6 +48,9 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/gate.png
   AssetGenImage get gate => const AssetGenImage('assets/images/gate.png');
+
+  /// File path: assets/images/hat.png
+  AssetGenImage get hat => const AssetGenImage('assets/images/hat.png');
 
   /// File path: assets/images/instructions_background.png
   AssetGenImage get instructionsBackground =>
@@ -82,12 +91,15 @@ class $AssetsImagesGen {
   List<AssetGenImage> get values => [
         autoRunInstruction,
         avoidBugsInstruction,
+        bag,
+        bear,
         collectEggsAcornsInstruction,
         dashWins,
         gameBackground,
         gameLogo,
         gameOverBg,
         gate,
+        hat,
         instructionsBackground,
         introBackgroundDesktop,
         introBackgroundMobile,
@@ -104,8 +116,9 @@ class $AssetsMapGen {
   const $AssetsMapGen();
 
   /// File path: assets/map/.gitignore
-  String get gitignore => 'assets/map/.gitignore';
+  String get aGitignore => 'assets/map/.gitignore';
 
+  /// Directory path: assets/map/anim
   $AssetsMapAnimGen get anim => const $AssetsMapAnimGen();
 
   /// File path: assets/map/flutter_runnergame_map_A.tmx
@@ -117,12 +130,15 @@ class $AssetsMapGen {
   /// File path: assets/map/flutter_runnergame_map_C.tmx
   String get flutterRunnergameMapC => 'assets/map/flutter_runnergame_map_C.tmx';
 
+  /// Directory path: assets/map/objects
   $AssetsMapObjectsGen get objects => const $AssetsMapObjectsGen();
+
+  /// Directory path: assets/map/tiles
   $AssetsMapTilesGen get tiles => const $AssetsMapTilesGen();
 
   /// List of all assets
   List<String> get values => [
-        gitignore,
+        aGitignore,
         flutterRunnergameMapA,
         flutterRunnergameMapB,
         flutterRunnergameMapC
@@ -762,9 +778,16 @@ class Assets {
 }
 
 class AssetGenImage {
-  const AssetGenImage(this._assetName);
+  const AssetGenImage(
+    this._assetName, {
+    this.size,
+    this.flavors = const {},
+  });
 
   final String _assetName;
+
+  final Size? size;
+  final Set<String> flavors;
 
   Image image({
     Key? key,

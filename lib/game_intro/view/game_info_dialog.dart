@@ -1,12 +1,8 @@
 import 'dart:ui';
 
 import 'package:app_ui/app_ui.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:super_dash/constants/constants.dart';
 import 'package:super_dash/gen/assets.gen.dart';
-import 'package:super_dash/l10n/l10n.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class GameInfoDialog extends StatelessWidget {
   const GameInfoDialog({super.key});
@@ -22,12 +18,10 @@ class GameInfoDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final bodyStyle = AppTextStyles.bodyLarge;
+    final bodyStyle = Theme.of(context).textTheme.titleMedium;
     const highlightColor = Color(0xFF9CECCD);
-    final linkStyle = AppTextStyles.bodyLarge.copyWith(
+    final linkStyle = AppTextStyles.titleSmall.copyWith(
       color: highlightColor,
-      decoration: TextDecoration.underline,
       decorationColor: highlightColor,
     );
     return AppDialog(
@@ -35,71 +29,86 @@ class GameInfoDialog extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const SizedBox(height: 24),
-          Assets.images.gameLogo.image(width: 230),
-          const SizedBox(height: 40),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32),
             child: Column(
               children: [
                 Text(
-                  l10n.aboutSuperDash,
+                  'HỌC NHIỆT TÌNH CHƠI HẾT MÌNH',
                   style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                const SizedBox(height: 24),
-                RichText(
                   textAlign: TextAlign.center,
-                  text: TextSpan(
-                    style: bodyStyle,
-                    children: [
-                      TextSpan(text: l10n.learn),
-                      TextSpan(
-                        text: l10n.howWeBuiltSuperDash,
-                        style: linkStyle,
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () => launchUrlString(Urls.howWeBuilt),
-                      ),
-                      TextSpan(
-                        text: l10n.inFlutterAndGrabThe,
-                      ),
-                      TextSpan(
-                        text: l10n.openSourceCode,
-                        style: linkStyle,
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () => launchUrlString(Urls.githubRepo),
-                      ),
-                    ],
-                  ),
                 ),
-                const SizedBox(height: 24),
-                Text(
-                  l10n.otherLinks,
-                  style: bodyStyle,
+                Column(
+                  children: [
+                    Assets.images.bear.image(width: 80),
+                    Text(
+                      'Top 20',
+                      style: bodyStyle,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        Assets.images.bag.image(width: 80),
+                        Text(
+                          'Top 50',
+                          style: bodyStyle,
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(width: 32),
+                    Column(
+                      children: [
+                        Assets.images.hat.image(width: 80),
+                        Text(
+                          'Top 100',
+                          style: bodyStyle,
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    )
+                  ],
                 ),
                 const SizedBox(height: 16),
-                RichText(
-                  text: TextSpan(
-                    text: l10n.flutterGames,
-                    style: linkStyle,
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () => launchUrlString(Urls.flutterGames),
-                  ),
+                Text(
+                  'Đua top trong vòng 10 ngày',
+                  style: bodyStyle,
+                  textAlign: TextAlign.center,
                 ),
-                RichText(
-                  text: TextSpan(
-                    text: l10n.privacyPolicy,
-                    style: linkStyle,
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () => launchUrlString(Urls.privacyPolicy),
-                  ),
+                const SizedBox(height: 4),
+                Text(
+                  'Từ 10/10/2024 - 20/10/2024.',
+                  style: linkStyle,
+                  textAlign: TextAlign.center,
                 ),
-                RichText(
-                  text: TextSpan(
-                    text: l10n.termsOfService,
-                    style: linkStyle,
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () => launchUrlString(Urls.termsOfService),
-                  ),
+                const SizedBox(height: 12),
+                Text(
+                  'Thời gian trao thưởng',
+                  style: bodyStyle,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Từ 9h - 17h ngày 25/10/2024',
+                  style: linkStyle,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  'Hình thức trao thưởng',
+                  style: bodyStyle,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Trao quà trực tiếp tại Văn phòng Cambridge Mentor - A6 - 09 Khu đô thị Monbay.',
+                  style: linkStyle,
+                  textAlign: TextAlign.center,
                 ),
               ],
             ),
