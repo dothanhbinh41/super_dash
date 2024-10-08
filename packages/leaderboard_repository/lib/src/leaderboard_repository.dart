@@ -100,6 +100,38 @@ class LeaderboardRepository {
     final json = jsonEncode(entry.toJson());
     await prefs.setString('currentLeaderboardEntry', json);
   }
+
+  Future<DateTime> getFinishTime() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final str = prefs.getString('finishTime');
+    if (str == null || str.isEmpty) {
+      return await reloadFinishTime();
+    }
+    final obj = jsonDecode(str);
+    if (DateTime.parse(obj['save_time'] as String)
+            .difference(DateTime.now())
+            .inHours >
+        1) {
+      return await reloadFinishTime();
+    }
+    return DateTime.parse(obj['time'] as String);
+  }
+
+  Future<DateTime> reloadFinishTime() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final res = await _api.getFinishTime();
+    final time = res.data['data']['end_time'];
+    await prefs.setString(
+      'finishTime',
+      jsonEncode(
+        {
+          'time': time,
+          'save_time': DateTime.now().toIso8601String(),
+        },
+      ),
+    );
+    return DateTime.parse(time as String);
+  }
 }
 
 extension on LeaderboardDto {

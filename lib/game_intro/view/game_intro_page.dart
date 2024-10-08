@@ -3,9 +3,11 @@ import 'dart:ui';
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:super_dash/game_intro/game_intro.dart';
+import 'package:super_dash/game_intro/view/game_finish_dialog.dart';
 import 'package:super_dash/game_intro/view/game_info_input_dialog.dart';
 import 'package:super_dash/gen/assets.gen.dart';
 import 'package:super_dash/l10n/l10n.dart';
+import 'package:super_dash/main.dart';
 
 class GameIntroPage extends StatefulWidget {
   const GameIntroPage({super.key});
@@ -29,18 +31,33 @@ class GameIntroPage extends StatefulWidget {
 }
 
 class _GameIntroPageState extends State<GameIntroPage> {
+  DateTime? finishTime;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     precacheImage(Assets.images.gameBackground.provider(), context);
   }
 
+  Future<void> loadFinishTime() async {
+    final time = await leaderboardRepository.getFinishTime();
+    setState(() {
+      finishTime = time;
+    });
+    if (DateTime.now().isBefore(time)) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.of(context).push(GameInfoDialog.route());
+      });
+    } else {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.of(context).push(GameFinishDialog.route());
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Navigator.of(context).push(GameInfoDialog.route());
-    });
+    loadFinishTime();
   }
 
   @override
@@ -55,14 +72,17 @@ class _GameIntroPageState extends State<GameIntroPage> {
             fit: BoxFit.cover,
           ),
         ),
-        child: const _IntroPage(),
+        child: _IntroPage(
+          finishTime: finishTime,
+        ),
       ),
     );
   }
 }
 
 class _IntroPage extends StatelessWidget {
-  const _IntroPage();
+  const _IntroPage({this.finishTime});
+  final DateTime? finishTime;
 
   @override
   Widget build(BuildContext context) {
@@ -90,12 +110,16 @@ class _IntroPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 32),
-            GameElevatedButton(
-              label: l10n.gameIntroPagePlayButtonText,
-              onPressed: () {
-                Navigator.of(context).push(GameInfoInputDialog.route());
-                // Navigator.of(context).push(Game.route());
-              },
+            Visibility(
+              visible:
+                  finishTime == null || DateTime.now().isBefore(finishTime!),
+              child: GameElevatedButton(
+                label: l10n.gameIntroPagePlayButtonText,
+                onPressed: () {
+                  Navigator.of(context).push(GameInfoInputDialog.route());
+                  // Navigator.of(context).push(Game.route());
+                },
+              ),
             ),
             const Spacer(),
             const Row(

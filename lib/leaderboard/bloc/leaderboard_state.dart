@@ -16,13 +16,15 @@ final class LeaderboardLoading extends LeaderboardState {
 }
 
 final class LeaderboardLoaded extends LeaderboardState {
-  const LeaderboardLoaded({required this.entries, required this.current});
+  const LeaderboardLoaded(
+      {required this.entries, required this.current, required this.finishTime});
 
   final List<LeaderboardEntryData> entries;
   final LeaderboardEntryData current;
+  final DateTime finishTime;
 
   @override
-  List<Object> get props => [entries, current];
+  List<Object> get props => [entries, current, finishTime];
 }
 
 final class LeaderboardError extends LeaderboardState {

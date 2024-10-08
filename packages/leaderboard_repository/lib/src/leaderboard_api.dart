@@ -34,4 +34,8 @@ class LeaderboardApi {
       data: {'phone': data.phoneNumber, 'score': data.score},
     );
   }
+
+  Future<Response<dynamic>> getFinishTime() {
+    return dio.get('/super-dash/cambridgeGameUser/end-time');
+  }
 }

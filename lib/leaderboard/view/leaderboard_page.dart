@@ -6,6 +6,7 @@ import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:super_dash/game/game.dart';
 import 'package:super_dash/gen/assets.gen.dart';
@@ -128,11 +129,13 @@ class Leaderboard extends StatelessWidget {
           LeaderboardLoading() =>
             const Center(child: LeaderboardLoadingWidget()),
           LeaderboardError() => const Center(child: LeaderboardErrorWidget()),
-          LeaderboardLoaded(entries: final entries, current: final current) =>
+          LeaderboardLoaded(
+            entries: final entries,
+            current: final current,
+            finishTime: final finishTime
+          ) =>
             LeaderboardContent(
-              entries: entries,
-              current: current,
-            ),
+                entries: entries, current: current, finishTime: finishTime),
         },
       ),
     );
@@ -193,14 +196,37 @@ class LeaderboardLoadingWidget extends StatelessWidget {
 
 @visibleForTesting
 class LeaderboardContent extends StatelessWidget {
-  const LeaderboardContent({
+  DateTime finishTime;
+
+  LeaderboardContent({
     required this.entries,
     required this.current,
+    required this.finishTime,
     super.key,
   });
 
   final List<LeaderboardEntryData> entries;
   final LeaderboardEntryData current;
+
+  String calculateTimeleft() {
+    if (DateTime.now().isBefore(finishTime)) {
+      final duration = finishTime.difference(DateTime.now());
+      return 'Còn lại: ${formatDuration(duration)}';
+    }
+    return 'Kết thúc lúc: ${DateFormat('hh:mm dd/MM/yyyy').format(finishTime)}';
+  }
+
+  String formatDuration(Duration duration) {
+    final days = duration.inDays;
+    final hours = duration.inHours.remainder(24);
+    final minutes = duration.inMinutes.remainder(60);
+
+    return days > 0
+        ? '$days ngày $hours giờ $minutes phút'
+        : hours > 0
+            ? '$hours giờ $minutes phút'
+            : '$minutes phút';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -220,6 +246,10 @@ class LeaderboardContent extends StatelessWidget {
                 style: theme.textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
+              ),
+              Text(
+                calculateTimeleft(),
+                style: theme.textTheme.headlineSmall?.copyWith(fontSize: 16),
               ),
               const SizedBox(height: 20),
               if (entries.isEmpty)
