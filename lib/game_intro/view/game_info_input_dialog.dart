@@ -136,13 +136,19 @@ class GameInfoInputDialogState extends State<GameInfoInputDialog> {
       return;
     }
 
-    await leaderboardRepository.createUser(
+    final res = await leaderboardRepository.createUser(
       LeaderboardEntryData(
           playerInitials: nameController.text,
           phoneNumber: phoneController.text,
           score: 0,
           rank: 0),
     );
+    if (res == false) {
+      setState(() {
+        errorName = 'Tên đã tồn tại';
+      });
+      return;
+    }
     await Navigator.of(context).push(Game.route());
   }
 }

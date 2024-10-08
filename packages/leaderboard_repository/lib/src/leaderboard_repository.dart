@@ -76,12 +76,13 @@ class LeaderboardRepository {
   }
 
   // ignore: public_member_api_docs
-  Future<void> createUser(LeaderboardEntryData entry) async {
+  Future<bool> createUser(LeaderboardEntryData entry) async {
     try {
       await _api.createUser(entry);
       await saveCurrentLeaderboardEntry(entry);
+      return true;
     } on Exception catch (error, stackTrace) {
-      print(error.toString());
+      return false;
     }
   }
 
