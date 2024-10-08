@@ -54,6 +54,7 @@ class App extends StatelessWidget {
           theme: ThemeData(
             textTheme: AppTextStyles.textTheme,
           ),
+          debugShowCheckedModeBanner: false,
           supportedLocales: AppLocalizations.supportedLocales,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           home: isTesting ? const MapTesterView() : const GameIntroPage(),
