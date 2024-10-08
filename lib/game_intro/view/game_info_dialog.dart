@@ -18,7 +18,8 @@ class GameInfoDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bodyStyle = Theme.of(context).textTheme.titleMedium;
+    final bodyStyle =
+        Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 14);
     const highlightColor = Color(0xFF9CECCD);
     final linkStyle = AppTextStyles.titleSmall.copyWith(
       color: highlightColor,
@@ -36,12 +37,15 @@ class GameInfoDialog extends StatelessWidget {
               children: [
                 Text(
                   'HỌC NHIỆT TÌNH CHƠI HẾT MÌNH',
-                  style: Theme.of(context).textTheme.headlineSmall,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineSmall
+                      ?.copyWith(fontSize: 18),
                   textAlign: TextAlign.center,
                 ),
                 Column(
                   children: [
-                    Assets.images.bear.image(width: 80),
+                    Assets.images.bear.image(width: 72),
                     Text(
                       'Top 20',
                       style: bodyStyle,
@@ -54,7 +58,7 @@ class GameInfoDialog extends StatelessWidget {
                   children: [
                     Column(
                       children: [
-                        Assets.images.bag.image(width: 80),
+                        Assets.images.bag.image(width: 72),
                         Text(
                           'Top 50',
                           style: bodyStyle,
@@ -62,10 +66,10 @@ class GameInfoDialog extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(width: 32),
+                    const SizedBox(width: 20),
                     Column(
                       children: [
-                        Assets.images.hat.image(width: 80),
+                        Assets.images.hat.image(width: 72),
                         Text(
                           'Top 100',
                           style: bodyStyle,
@@ -75,13 +79,13 @@ class GameInfoDialog extends StatelessWidget {
                     )
                   ],
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
                 Text(
                   'Đua top trong vòng 10 ngày',
                   style: bodyStyle,
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 2),
                 Text(
                   'Từ 10/10/2024 - 20/10/2024.',
                   style: linkStyle,
@@ -93,7 +97,7 @@ class GameInfoDialog extends StatelessWidget {
                   style: bodyStyle,
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 2),
                 Text(
                   'Từ 9h - 17h ngày 25/10/2024',
                   style: linkStyle,
@@ -105,7 +109,7 @@ class GameInfoDialog extends StatelessWidget {
                   style: bodyStyle,
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 2),
                 Text(
                   'Trao quà trực tiếp tại Văn phòng Cambridge Mentor - A6 - 09 Khu đô thị Monbay.',
                   style: linkStyle,
