@@ -76,7 +76,14 @@ class GameInfoInputDialogState extends State<GameInfoInputDialog> {
                 hint: 'Nick name',
                 controller: nameController,
                 onChanged: (p0) {
-                  if (p0.length > 3) {
+                  if (p0.length > 30) {
+                    setState(() {
+                      errorName = 'Tên quá dài';
+                    });
+                    return;
+                  }
+
+                  if (p0.length > 3 && p0.length <= 30) {
                     setState(() {
                       errorName = '';
                     });
@@ -132,6 +139,13 @@ class GameInfoInputDialogState extends State<GameInfoInputDialog> {
     if (nameController.text.length <= 3) {
       setState(() {
         errorName = 'Tên quá ngắn';
+      });
+      return;
+    }
+
+    if (nameController.text.length > 30) {
+      setState(() {
+        errorName = 'Tên quá dài';
       });
       return;
     }
