@@ -90,7 +90,7 @@ class GameInfoInputDialogState extends State<GameInfoInputDialog> {
                   }
 
                   nameController.text =
-                      p0.replaceAll(RegExp('A-Z0-9a-z '), '').trim();
+                      p0.replaceAll(RegExp('[A-Z0-9a-z ]+'), '').trim();
                 },
               ),
               Visibility(
