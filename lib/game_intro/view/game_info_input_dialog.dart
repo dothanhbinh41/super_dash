@@ -89,8 +89,12 @@ class GameInfoInputDialogState extends State<GameInfoInputDialog> {
                     });
                   }
 
-                  nameController.text =
-                      p0.replaceAll(RegExp('[A-Z0-9a-z ]+'), '').trim();
+                  if (p0.isNotEmpty &&
+                      RegExp('([^A-Z0-9a-z ]+)').hasMatch(p0)) {
+                    setState(() {
+                      errorName = 'Tên không chứa ký tự đặc biệt';
+                    });
+                  }
                 },
               ),
               Visibility(
