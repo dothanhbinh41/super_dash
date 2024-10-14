@@ -88,6 +88,9 @@ class GameInfoInputDialogState extends State<GameInfoInputDialog> {
                       errorName = '';
                     });
                   }
+
+                  nameController.text =
+                      p0.replaceAll(RegExp('A-Z0-9a-z '), '').trim();
                 },
               ),
               Visibility(
@@ -129,6 +132,13 @@ class GameInfoInputDialogState extends State<GameInfoInputDialog> {
   }
 
   Future<void> createUser() async {
+    if (phoneController.text.isEmpty) {
+      setState(() {
+        errorPhone = 'Số điện thoại không được bỏ trống';
+      });
+      return;
+    }
+
     if (!regex.hasMatch(phoneController.text)) {
       setState(() {
         errorPhone = 'Số điện thoại sai định dạng';
@@ -138,7 +148,7 @@ class GameInfoInputDialogState extends State<GameInfoInputDialog> {
 
     if (nameController.text.length <= 3) {
       setState(() {
-        errorName = 'Tên quá ngắn';
+        errorName = 'Vui lòng nhập nickname';
       });
       return;
     }
