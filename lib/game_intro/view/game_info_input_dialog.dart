@@ -164,6 +164,14 @@ class GameInfoInputDialogState extends State<GameInfoInputDialog> {
       return;
     }
 
+    if (nameController.text.isNotEmpty &&
+        RegExp('([^A-Z0-9a-z ]+)').hasMatch(nameController.text)) {
+      setState(() {
+        errorName = 'Tên không chứa ký tự đặc biệt';
+      });
+      return;
+    }
+
     final res = await leaderboardRepository.createUser(
       LeaderboardEntryData(
           playerInitials: nameController.text,
