@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 
 class LeaderboardApi {
-  static const baseUrl = 'https://beta-api.edutalk.edu.vn';
+  static const baseUrl = 'https://api2.edutalk.edu.vn';
   static final options = BaseOptions(
     baseUrl: baseUrl,
     connectTimeout: const Duration(seconds: 15),
