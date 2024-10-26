@@ -77,13 +77,13 @@ class GameInfoDialog extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'Đua top trong vòng 10 ngày',
+                  'Thời gian đua top:',
                   style: bodyStyle,
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Từ 10/10/2024 - 20/10/2024.',
+                  'Từ 04/11/2024 - 14/11/2024.',
                   style: linkStyle,
                   textAlign: TextAlign.center,
                 ),
@@ -95,7 +95,7 @@ class GameInfoDialog extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Từ 9h - 17h ngày 25/10/2024',
+                  'Từ 16/11/2024 - 17/11/2024',
                   style: linkStyle,
                   textAlign: TextAlign.center,
                 ),
