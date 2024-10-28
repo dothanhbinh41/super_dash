@@ -9,11 +9,13 @@ import 'package:flame/text.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as mat;
 import 'package:flutter/services.dart';
 import 'package:leap/leap.dart';
 import 'package:super_dash/audio/audio.dart';
 import 'package:super_dash/game/game.dart';
 import 'package:super_dash/score/score.dart';
+import 'package:toastification/toastification.dart';
 
 bool _tsxPackingFilter(Tileset tileset) {
   return !(tileset.source ?? '').startsWith('anim');
@@ -51,12 +53,15 @@ class SuperDashGame extends LeapGame
   static const _sections = [
     'flutter_runnergame_map_A.tmx',
     'flutter_runnergame_map_B.tmx',
-    'flutter_runnergame_map_C.tmx',
+    'flutter_runnergame_map_C.tmx'
   ];
   static const _sectionsBackgroundColor = [
     (Color(0xFFDADEF6), Color(0xFFEAF0E3)),
-    (Color(0xFFEBD6E1), Color(0xFFC9C8E9)),
+    (Color(0xFFEBD6E1), ui.Color.fromARGB(255, 202, 201, 224)),
     (Color(0xFF002052), Color(0xFF0055B4)),
+    (Color(0xFFDADEF6), Color(0xFFEAF0E3)),
+    (Color(0xFFEBD6E1), ui.Color.fromARGB(255, 166, 165, 196)),
+    (Color(0xFF002052), ui.Color.fromARGB(255, 6, 72, 147)),
   ];
 
   final GameBloc gameBloc;
@@ -283,21 +288,23 @@ class SuperDashGame extends LeapGame
   }
 
   Future<void> _loadNewSection() async {
+    _resetEntities();
+
     final nextSectionIndex = state.currentSection + 1 < _sections.length
         ? state.currentSection + 1
         : 0;
-
-    final nextSection = _sections[nextSectionIndex];
-
-    _resetEntities();
+    final nextSection =
+        _sections.elementAtOrNull(nextSectionIndex) ?? _sections.first;
 
     await loadWorldAndMap(
       images: images,
       prefix: prefix,
       bundle: customBundle,
       tiledMapPath: nextSection,
-    );
-
+      transitionComponent: LeapMapTransition.defaultFactory(this),
+    ).catchError((e) {
+      toastification.show(title: mat.Text(e.toString()));
+    });
     if (isFirstSection) {
       _addTreeHouseSign();
     }
@@ -325,17 +332,18 @@ class SuperDashGame extends LeapGame
     _setSectionBackground();
   }
 
-  void sectionCleared() {
+  Future<void> sectionCleared() async {
     if (isLastSection) {
       player?.spritePaintColor(Colors.transparent);
       player?.walking = false;
     }
 
-    _loadNewSection();
-
-    gameBloc
-      ..add(GameScoreIncreased(by: 1000 * state.currentLevel))
-      ..add(GameSectionCompleted(sectionCount: _sections.length));
+    await _loadNewSection();
+    await Future.delayed(
+        const Duration(seconds: 1),
+        () => gameBloc
+          ..add(GameScoreIncreased(by: 1000 * state.currentLevel))
+          ..add(GameSectionCompleted(sectionCount: _sections.length)));
   }
 
   bool get isLastSection => state.currentSection == _sections.length - 1;

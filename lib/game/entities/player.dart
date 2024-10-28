@@ -284,8 +284,8 @@ class Player extends JumperCharacter<SuperDashGame> {
     stateBehavior.updateSpritePaintColor(color);
   }
 
-  void sectionCleared() {
+  Future<void> sectionCleared() async {
     isPlayerTeleporting = true;
-    gameRef.sectionCleared();
+    await gameRef.sectionCleared();
   }
 }
