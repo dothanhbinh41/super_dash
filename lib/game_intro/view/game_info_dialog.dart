@@ -107,7 +107,7 @@ class GameInfoDialog extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Trao quà trực tiếp tại VP Cambridge Mentor\nĐC: Số LK1-64 KĐT mới Tân Tây Đô - Tân Lập - Đan Phượng - Hà Nội',
+                  'Trao quà tại Cambridge Mentor\nSố LK1-64 KĐT mới Tân Tây Đô, Tân Lập, Đan Phượng, Hà Nội',
                   style: linkStyle,
                   textAlign: TextAlign.center,
                 ),
