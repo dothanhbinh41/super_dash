@@ -41,7 +41,7 @@ class GameInfoDialog extends StatelessWidget {
                 ),
                 Column(
                   children: [
-                    Assets.images.bear.image(width: 80),
+                    Assets.images.bear.image(width: 72),
                     Text(
                       'Top 20',
                       style: bodyStyle,
@@ -54,7 +54,7 @@ class GameInfoDialog extends StatelessWidget {
                   children: [
                     Column(
                       children: [
-                        Assets.images.bag.image(width: 80),
+                        Assets.images.bag.image(width: 72),
                         Text(
                           'Top 50',
                           style: bodyStyle,
@@ -65,17 +65,17 @@ class GameInfoDialog extends StatelessWidget {
                     const SizedBox(width: 32),
                     Column(
                       children: [
-                        Assets.images.hat.image(width: 80),
+                        Assets.images.hat.image(width: 72),
                         Text(
                           'Top 100',
                           style: bodyStyle,
                           textAlign: TextAlign.center,
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
                 Text(
                   'Thời gian đua top:',
                   style: bodyStyle,
@@ -87,7 +87,7 @@ class GameInfoDialog extends StatelessWidget {
                   style: linkStyle,
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 10),
                 Text(
                   'Thời gian trao thưởng',
                   style: bodyStyle,
@@ -99,7 +99,7 @@ class GameInfoDialog extends StatelessWidget {
                   style: linkStyle,
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 10),
                 Text(
                   'Hình thức trao thưởng',
                   style: bodyStyle,
