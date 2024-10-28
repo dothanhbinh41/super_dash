@@ -288,32 +288,31 @@ class SuperDashGame extends LeapGame
   }
 
   Future<void> _loadNewSection() async {
+    final nextSectionIndex = state.currentSection >= _sections.length - 1
+        ? 0
+        : state.currentSection + 1;
+    final nextSection = _sections.elementAt(nextSectionIndex);
+
     _resetEntities();
 
-    final nextSectionIndex = state.currentSection + 1 < _sections.length
-        ? state.currentSection + 1
-        : 0;
-    final nextSection =
-        _sections.elementAtOrNull(nextSectionIndex) ?? _sections.first;
-
-    await loadWorldAndMap(
-      images: images,
-      prefix: prefix,
-      bundle: customBundle,
-      tiledMapPath: nextSection,
-      transitionComponent: LeapMapTransition.defaultFactory(this),
-    ).catchError((e) {
-      toastification.show(title: mat.Text(e.toString()));
-    });
-    if (isFirstSection) {
-      _addTreeHouseSign();
-    }
-
-    if (isLastSection || isFirstSection) {
-      _addTreeHouseFrontLayer();
-    }
-
-    await _addSpawners();
+    Future<void>.delayed(
+      const Duration(seconds: 2),
+      () async {
+        loadWorldAndMap(
+          images: images,
+          prefix: prefix,
+          bundle: customBundle,
+          tiledMapPath: nextSection,
+        );
+        if (isLastSection || isFirstSection) {
+          _addTreeHouseFrontLayer();
+        }
+        if (isFirstSection) {
+          _addTreeHouseSign();
+        }
+        await _addSpawners();
+      },
+    );
   }
 
   @override
