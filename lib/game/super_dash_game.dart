@@ -298,7 +298,7 @@ class SuperDashGame extends LeapGame
     Future<void>.delayed(
       const Duration(seconds: 2),
       () async {
-        loadWorldAndMap(
+        await loadWorldAndMap(
           images: images,
           prefix: prefix,
           bundle: customBundle,
