@@ -27,8 +27,10 @@ class GameInfoInputDialog extends StatefulWidget {
 }
 
 class GameInfoInputDialogState extends State<GameInfoInputDialog> {
-  final TextEditingController phoneController = TextEditingController();
-  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController =
+      TextEditingController(text: "0989097041");
+  final TextEditingController nameController =
+      TextEditingController(text: "0989097041");
 
   final regex = RegExp(r'^(0[3|5|7|8|9])[0-9]{8}$');
   String? errorPhone;

@@ -36,7 +36,6 @@ class SuperDashGame extends LeapGame
     this.inMapTester = false,
   }) : super(
           world: LeapWorld(),
-          appState: AppLifecycleState.paused,
           tileSize: 64,
           configuration: const LeapConfiguration(
             tiled: TiledOptions(
@@ -149,7 +148,7 @@ class SuperDashGame extends LeapGame
       levelSize: leapMap.tiledMap.size.clone(),
       cameraViewport: _cameraViewport,
     );
-    world.add(player);
+    unawaited(world.addAll([player]));
     await _addSpawners();
     _addTreeHouseFrontLayer();
     _addTreeHouseSign();
