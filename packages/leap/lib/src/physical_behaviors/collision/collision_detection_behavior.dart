@@ -255,8 +255,6 @@ class CollisionDetectionBehavior extends PhysicalBehavior {
       }
     }
 
-    // TODO(kurtome): cache this somehow so it's only evaluated once per game
-    //  loop?
     final nonMapCollidables = world.physicals.where(
       (p) => p.collisionType == CollisionType.standard,
     );

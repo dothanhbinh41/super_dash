@@ -73,10 +73,10 @@ class LeapGame extends FlameGame with HasTrackedComponents {
     if (currentMap != null) {
       onMapUnload(currentMap);
 
-      final transition = mapTransition =
-          transitionComponent ?? LeapMapTransition.defaultFactory(this);
-      camera.viewport.add(transition);
-      await transition.introFinished;
+      // final transition = mapTransition =
+      //     transitionComponent ?? LeapMapTransition.defaultFactory(this);
+      // camera.viewport.add(transition);
+      // await transition.introFinished;
       currentMap.removeFromParent();
     }
 
@@ -91,14 +91,14 @@ class LeapGame extends FlameGame with HasTrackedComponents {
       tiledOptions: configuration.tiled,
       tiledObjectHandlers: tiledObjectHandlers,
     );
-    onMapLoaded(_leapMap!);
+    onMapLoaded(leapMap);
 
-    await world.add(leapMap);
+    world.add(leapMap);
 
-    if (mapTransition != null) {
-      mapTransition.outro();
-      await mapTransition.outroFinished;
-      mapTransition.removeFromParent();
-    }
+    // if (mapTransition != null) {
+    //   mapTransition.outro();
+    //   await mapTransition.outroFinished;
+    //   mapTransition.removeFromParent();
+    // }
   }
 }
