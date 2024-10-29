@@ -8,12 +8,20 @@ import 'package:leap/leap.dart';
 import 'package:super_dash/audio/audio.dart';
 import 'package:super_dash/game/game.dart';
 
-class Player extends JumperCharacter<SuperDashGame> {
+class Player extends JumperCharacter with HasGameRef<SuperDashGame> {
   Player({
     required this.levelSize,
     required this.cameraViewport,
-    super.health = initialHealth,
-  });
+  }) {
+    health = initialHealth;
+    cameraAnchor = PlayerCameraAnchor(
+      cameraViewport: cameraViewport,
+      levelSize: levelSize,
+      showCameraBounds: true,
+    );
+  }
+
+  bool get isOnGround => collisionInfo.down;
 
   static const initialHealth = 1;
   static const speed = 5.0;
@@ -57,14 +65,14 @@ class Player extends JumperCharacter<SuperDashGame> {
   }
 
   @override
-  set walking(bool value) {
-    if (!super.walking && value) {
+  set isWalking(bool value) {
+    if (!super.isWalking && value) {
       setRunningState();
-    } else if (super.walking && !value) {
+    } else if (super.isWalking && !value) {
       setIdleState();
     }
 
-    super.walking = value;
+    super.isWalking = value;
   }
 
   void setRunningState() {
@@ -85,23 +93,16 @@ class Player extends JumperCharacter<SuperDashGame> {
   }
 
   @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-
-    size = Vector2.all(gameRef.tileSize * .5);
-    walkSpeed = gameRef.tileSize * speed;
-    minJumpImpulse = world.gravity * jumpImpulse;
-    cameraAnchor = PlayerCameraAnchor(
-      cameraViewport: cameraViewport,
-      levelSize: levelSize,
-      showCameraBounds: gameRef.inMapTester,
-    );
-
-    add(cameraAnchor);
+  void onLoad() {
+    super.onLoad();
     add(PlayerControllerBehavior());
     add(PlayerStateBehavior());
-
+    add(cameraAnchor);
+    cameraAnchor.mounted;
     gameRef.camera.follow(cameraAnchor);
+    size = Vector2.all(gameRef.tileSize * .5);
+    walkSpeed = gameRef.tileSize * speed;
+    minJumpImpulse = gameRef.world.gravity * jumpImpulse;
 
     loadSpawnPoint();
     loadRespawnPoints();
@@ -137,7 +138,6 @@ class Player extends JumperCharacter<SuperDashGame> {
   @override
   void update(double dt) {
     super.update(dt);
-
     if (_gameOverTimer != null) {
       _gameOverTimer = _gameOverTimer! - dt;
       if (_gameOverTimer! <= 0) {
@@ -176,7 +176,7 @@ class Player extends JumperCharacter<SuperDashGame> {
       return respawn();
     }
 
-    final collisions = collisionInfo.otherCollisions ?? const [];
+    final collisions = collisionInfo.allCollisions;
 
     if (collisions.isEmpty) return;
 
@@ -223,7 +223,7 @@ class Player extends JumperCharacter<SuperDashGame> {
     final currentDashPosition = position.x;
     final isPlayerStopped = currentDashPosition == _dashPosition;
     // Player is set as walking but is not moving.
-    if (walking && isPlayerStopped) {
+    if (isWalking && isPlayerStopped) {
       _stuckTimer ??= 1;
       _stuckTimer = _stuckTimer! - dt;
       if (_stuckTimer! <= 0) {
@@ -238,7 +238,7 @@ class Player extends JumperCharacter<SuperDashGame> {
 
   void _animateToGameOver([DashState deathState = DashState.deathFaint]) {
     stateBehavior.state = deathState;
-    super.walking = false;
+    super.isWalking = false;
     _gameOverTimer = 1.4;
   }
 
@@ -259,7 +259,7 @@ class Player extends JumperCharacter<SuperDashGame> {
 
     isPlayerRespawning = true;
     isPlayerInvincible = true;
-    walking = false;
+    isWalking = false;
     stateBehavior.fadeOut();
     add(
       MoveToEffect(
@@ -275,7 +275,7 @@ class Player extends JumperCharacter<SuperDashGame> {
       onComplete: () {
         isPlayerRespawning = false;
         isPlayerInvincible = false;
-        walking = true;
+        isWalking = true;
       },
     );
   }

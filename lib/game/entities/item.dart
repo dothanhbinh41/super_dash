@@ -26,10 +26,10 @@ enum ItemType {
   }
 }
 
-class Item extends PhysicalEntity<SuperDashGame> {
+class Item extends PhysicalEntity with HasGameRef<SuperDashGame> {
   Item({
     required this.tiledObject,
-  }) : super(static: true, collisionType: CollisionType.standard);
+  }) : super(static: true);
 
   late final ItemType type;
   late final TiledObject tiledObject;
@@ -39,7 +39,7 @@ class Item extends PhysicalEntity<SuperDashGame> {
 
   @override
   Future<void> onLoad() async {
-    await super.onLoad();
+    super.onLoad();
     type = ItemType.fromType(
       (tiledObject.properties.byName['Type'] as StringProperty?)?.value,
     );

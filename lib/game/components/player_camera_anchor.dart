@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +24,7 @@ class CameraBounds extends PositionComponent {
   void _updatePosition(double dt) {
     position.x = reference.position.x + referenceOffset.x;
 
+    print(position.toString() + "-------position-----------");
     final playerPosition = reference.position.y + referenceOffset.y;
     final difference = playerPosition - position.y;
     if (difference.abs() > bound) {
@@ -150,16 +153,15 @@ class PlayerCameraAnchor extends Component
   }
 
   @override
-  void onMount() {
+  FutureOr<void> onMount() async {
     super.onMount();
-
     _bounds = CameraBounds(
       reference: parent,
       bound: 128,
       showBounds: showCameraBounds,
     );
-    gameRef.world.add(_bounds);
-
+    await gameRef.world.add(_bounds);
+    await _bounds.mounted;
     final value = parent.position.clone();
     _setAnchor(value.x, value.y);
   }
@@ -167,7 +169,6 @@ class PlayerCameraAnchor extends Component
   @override
   void update(double dt) {
     super.update(dt);
-
     _setAnchor(
       _bounds.position.x,
       _bounds.position.y,

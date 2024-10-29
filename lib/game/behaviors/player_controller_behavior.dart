@@ -25,6 +25,7 @@ class PlayerControllerBehavior extends Behavior<Player> {
   }
 
   void _handleInput() {
+    parent.isWalking = true;
     if (parent.isDead ||
         parent.isPlayerTeleporting ||
         parent.isPlayerRespawning ||
@@ -37,14 +38,14 @@ class PlayerControllerBehavior extends Behavior<Player> {
       return;
     }
 
-    // If is no walking, start walking
-    if (!parent.walking) {
-      parent.walking = true;
+    // If is no isWalking, start isWalking
+    if (!parent.isWalking) {
+      parent.isWalking = true;
       return;
     }
 
-    // If is walking, jump
-    if (parent.walking && parent.isOnGround) {
+    // If is isWalking, jump
+    if (parent.isWalking && parent.isOnGround) {
       parent
         ..jumpEffects()
         ..jumping = true;
@@ -52,8 +53,8 @@ class PlayerControllerBehavior extends Behavior<Player> {
       return;
     }
 
-    // If is walking and double jump is enabled, double jump
-    if (parent.walking &&
+    // If is isWalking and double jump is enabled, double jump
+    if (parent.isWalking &&
         !parent.isOnGround &&
         parent.hasGoldenFeather &&
         !doubleJumpUsed) {
@@ -88,7 +89,7 @@ class PlayerControllerBehavior extends Behavior<Player> {
       }
     }
 
-    if (_jumpTimer <= 0 && parent.isOnGround && parent.walking) {
+    if (_jumpTimer <= 0 && parent.isOnGround && parent.isWalking) {
       parent.setRunningState();
     }
 

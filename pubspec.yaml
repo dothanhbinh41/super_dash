@@ -15,9 +15,9 @@ dependencies:
   dio: ^5.7.0
   equatable: ^2.0.5
   file_selector: ^1.0.1 
-  flame: ^1.21.0
-  flame_tiled: ^1.21.0
-  flame_behaviors: ^1.0.0 
+  flame: 1.20.0
+  flame_behaviors: 1.2.0
+  flame_tiled: 1.20.2
   flow_builder: ^0.0.9
   flutter:
     sdk: flutter
@@ -31,12 +31,12 @@ dependencies:
   leap: ^0.8.2
   logging: ^1.2.0
   ordered_set: ^6.0.0
-  toastification: ^2.3.0
-  path: ^1.8.3
+  path: ^1.9.0
   pathxp: ^0.4.0
   provider: ^6.0.5
   share_plus: ^7.2.1
   shared_preferences: ^2.2.2
+  toastification: ^2.3.0
   url_launcher: ^6.2.1
 
 dev_dependencies:
@@ -48,18 +48,19 @@ dev_dependencies:
   mocktail: ^1.0.0
   very_good_analysis: ^5.0.0  
 
-dependency_overrides:  
-  leap:
-    git:
-      url: https://github.com/VeryGoodOpenSource/leap.git
-      ref: vgv
-      path: packages/leap
+# dependency_overrides:  
+#   leap:
+#     git:
+#       url: https://github.com/VeryGoodOpenSource/leap.git
+#       ref: vgv
+#       path: packages/leap
 
 flutter:
   uses-material-design: true
   generate: true
 
   assets:
+    - assets/
     - assets/images/
     - assets/map/
     - assets/map/anim/

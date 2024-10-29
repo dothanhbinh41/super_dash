@@ -32,7 +32,7 @@ enum EnemyType {
   }
 }
 
-class Enemy extends PhysicalEntity<SuperDashGame> {
+class Enemy extends PhysicalEntity with HasGameRef<SuperDashGame> {
   Enemy({
     required this.tiledObject,
     this.enemyDamage = 1,
@@ -41,7 +41,6 @@ class Enemy extends PhysicalEntity<SuperDashGame> {
               '',
         ),
         super(
-          collisionType: CollisionType.standard,
           static: tiledObject.properties.byName['Fly']?.value as bool? ?? false,
         );
 

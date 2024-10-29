@@ -35,6 +35,8 @@ class SuperDashGame extends LeapGame
     this.customBundle,
     this.inMapTester = false,
   }) : super(
+          world: LeapWorld(),
+          appState: AppLifecycleState.paused,
           tileSize: 64,
           configuration: const LeapConfiguration(
             tiled: TiledOptions(
@@ -116,10 +118,6 @@ class SuperDashGame extends LeapGame
   Future<void> onLoad() async {
     await super.onLoad();
 
-    if (inMapTester) {
-      _addMapTesterFeatures();
-    }
-
     if (kIsWeb && audioController.isMusicEnabled) {
       audioController.startMusic();
     }
@@ -151,10 +149,7 @@ class SuperDashGame extends LeapGame
       levelSize: leapMap.tiledMap.size.clone(),
       cameraViewport: _cameraViewport,
     );
-    unawaited(
-      world.addAll([player]),
-    );
-
+    world.add(player);
     await _addSpawners();
     _addTreeHouseFrontLayer();
     _addTreeHouseSign();
@@ -298,7 +293,7 @@ class SuperDashGame extends LeapGame
     Future<void>.delayed(
       const Duration(seconds: 2),
       () async {
-        loadWorldAndMap(
+        await loadWorldAndMap(
           images: images,
           prefix: prefix,
           bundle: customBundle,
@@ -324,7 +319,7 @@ class SuperDashGame extends LeapGame
   void onMapLoaded(LeapMap map) {
     player?.loadSpawnPoint();
     player?.loadRespawnPoints();
-    player?.walking = true;
+    player?.isWalking = true;
     player?.spritePaintColor(Colors.white);
     player?.isPlayerTeleporting = false;
 
@@ -334,7 +329,7 @@ class SuperDashGame extends LeapGame
   Future<void> sectionCleared() async {
     if (isLastSection) {
       player?.spritePaintColor(Colors.transparent);
-      player?.walking = false;
+      player?.isWalking = false;
     }
 
     await _loadNewSection();
