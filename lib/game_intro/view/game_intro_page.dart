@@ -111,6 +111,8 @@ class _IntroPage extends StatelessWidget {
             ),
             const SizedBox(height: 32),
             Visibility(
+              visible:
+                  finishTime == null || DateTime.now().isBefore(finishTime!),
               child: GameElevatedButton(
                 label: l10n.gameIntroPagePlayButtonText,
                 onPressed: () {

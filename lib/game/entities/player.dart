@@ -16,7 +16,6 @@ class Player extends JumperCharacter<SuperDashGame> {
   });
 
   static const initialHealth = 1;
-  static const speed = 5.0;
   static const jumpImpulse = .6;
 
   final Vector2 levelSize;
@@ -89,7 +88,7 @@ class Player extends JumperCharacter<SuperDashGame> {
     await super.onLoad();
 
     size = Vector2.all(gameRef.tileSize * .5);
-    walkSpeed = gameRef.tileSize * speed;
+    walkSpeed = gameRef.tileSize * gameRef.speed;
     minJumpImpulse = world.gravity * jumpImpulse;
     cameraAnchor = PlayerCameraAnchor(
       cameraViewport: cameraViewport,

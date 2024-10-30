@@ -9,7 +9,7 @@ import 'package:super_dash/game/super_dash_game.dart';
 
 enum ItemType {
   acorn(10),
-  egg(1000),
+  egg(50),
   goldenFeather(0);
 
   const ItemType(this.points);

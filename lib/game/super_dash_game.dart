@@ -15,7 +15,6 @@ import 'package:leap/leap.dart';
 import 'package:super_dash/audio/audio.dart';
 import 'package:super_dash/game/game.dart';
 import 'package:super_dash/score/score.dart';
-import 'package:toastification/toastification.dart';
 
 bool _tsxPackingFilter(Tileset tileset) {
   return !(tileset.source ?? '').startsWith('anim');
@@ -48,20 +47,33 @@ class SuperDashGame extends LeapGame
           ),
         );
 
+  double get speed => gameBloc.state.currentLevel + 4.0;
   static final _cameraViewport = Vector2(592, 1024);
   static const prefix = 'assets/map/';
-  static const _sections = [
-    'flutter_runnergame_map_A.tmx',
-    'flutter_runnergame_map_B.tmx',
-    'flutter_runnergame_map_C.tmx'
-  ];
+  static const _sections = ['flutter_runnergame_map_A.tmx'];
   static const _sectionsBackgroundColor = [
     (Color(0xFFDADEF6), Color(0xFFEAF0E3)),
-    (Color(0xFFEBD6E1), ui.Color.fromARGB(255, 202, 201, 224)),
-    (Color(0xFF002052), Color(0xFF0055B4)),
     (Color(0xFFDADEF6), Color(0xFFEAF0E3)),
-    (Color(0xFFEBD6E1), ui.Color.fromARGB(255, 166, 165, 196)),
-    (Color(0xFF002052), ui.Color.fromARGB(255, 6, 72, 147)),
+    (
+      ui.Color.fromARGB(255, 171, 145, 170),
+      ui.Color.fromARGB(255, 188, 140, 180)
+    ),
+    (
+      ui.Color.fromARGB(255, 178, 217, 168),
+      ui.Color.fromARGB(255, 110, 195, 123)
+    ),
+    (
+      ui.Color.fromARGB(255, 174, 173, 115),
+      ui.Color.fromARGB(255, 178, 166, 29)
+    ),
+    (ui.Color.fromARGB(255, 138, 38, 80), ui.Color.fromARGB(255, 66, 19, 47)),
+    (ui.Color.fromARGB(255, 61, 159, 183), ui.Color.fromARGB(255, 12, 73, 108)),
+    (ui.Color.fromARGB(255, 73, 74, 81), ui.Color.fromARGB(255, 41, 43, 39)),
+    (ui.Color.fromARGB(255, 255, 165, 165), ui.Color.fromARGB(255, 96, 4, 4)),
+    (
+      ui.Color.fromARGB(255, 182, 152, 246),
+      ui.Color.fromARGB(255, 175, 37, 197)
+    ),
   ];
 
   final GameBloc gameBloc;
@@ -194,7 +206,8 @@ class SuperDashGame extends LeapGame
   }
 
   void _setSectionBackground() {
-    final colors = _sectionsBackgroundColor[state.currentSection];
+    final colors = _sectionsBackgroundColor[
+        state.currentLevel % _sectionsBackgroundColor.length];
     camera.backdrop = RectangleComponent(
       size: size.clone(),
       paint: Paint()
@@ -228,13 +241,8 @@ class SuperDashGame extends LeapGame
           bundle: customBundle,
           tiledMapPath: _sections.first,
         );
-        if (isLastSection || isFirstSection) {
-          _addTreeHouseFrontLayer();
-        }
-
-        if (isFirstSection) {
-          _addTreeHouseSign();
-        }
+        _addTreeHouseFrontLayer();
+        _addTreeHouseSign();
         final newPlayer = Player(
           levelSize: leapMap.tiledMap.size.clone(),
           cameraViewport: _cameraViewport,
@@ -288,31 +296,21 @@ class SuperDashGame extends LeapGame
   }
 
   Future<void> _loadNewSection() async {
-    final nextSectionIndex = state.currentSection >= _sections.length - 1
-        ? 0
-        : state.currentSection + 1;
-    final nextSection = _sections.elementAt(nextSectionIndex);
-
     _resetEntities();
-
-    Future<void>.delayed(
-      const Duration(seconds: 2),
-      () async {
-        await loadWorldAndMap(
-          images: images,
-          prefix: prefix,
-          bundle: customBundle,
-          tiledMapPath: nextSection,
-        );
-        if (isLastSection || isFirstSection) {
-          _addTreeHouseFrontLayer();
-        }
-        if (isFirstSection) {
-          _addTreeHouseSign();
-        }
-        await _addSpawners();
-      },
+    player?.walkSpeed = tileSize * speed;
+    await loadWorldAndMap(
+      images: images,
+      prefix: prefix,
+      bundle: customBundle,
+      tiledMapPath: _sections.first,
     );
+    if (isLastSection || isFirstSection) {
+      _addTreeHouseFrontLayer();
+    }
+    if (isFirstSection) {
+      _addTreeHouseSign();
+    }
+    await _addSpawners();
   }
 
   @override
@@ -336,13 +334,10 @@ class SuperDashGame extends LeapGame
       player?.spritePaintColor(Colors.transparent);
       player?.walking = false;
     }
-
+    gameBloc
+      ..add(GameScoreIncreased(by: 100 * state.currentLevel))
+      ..add(GameSectionCompleted(sectionCount: _sections.length));
     await _loadNewSection();
-    await Future.delayed(
-        const Duration(seconds: 1),
-        () => gameBloc
-          ..add(GameScoreIncreased(by: 1000 * state.currentLevel))
-          ..add(GameSectionCompleted(sectionCount: _sections.length)));
   }
 
   bool get isLastSection => state.currentSection == _sections.length - 1;

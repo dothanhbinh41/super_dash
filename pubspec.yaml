@@ -50,7 +50,10 @@ dev_dependencies:
 
 dependency_overrides:  
   leap:
-    path: packages/leap
+    git:
+      url: https://github.com/VeryGoodOpenSource/leap.git
+      ref: vgv
+      path: packages/leap
 
 flutter:
   uses-material-design: true
