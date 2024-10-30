@@ -193,7 +193,7 @@ class SuperDashGame extends LeapGame
     world.add(
       TreeSign(
         position: Vector2(
-          448,
+          848,
           1862,
         ),
       ),

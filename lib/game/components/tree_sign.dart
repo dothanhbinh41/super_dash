@@ -12,7 +12,8 @@ class TreeSign extends TextComponent with HasGameRef<SuperDashGame> {
           textRenderer: TextPaint(
             style: const TextStyle(
               color: Color(0xffffffff),
-              fontSize: 24,
+              backgroundColor: Color(0x80000000),
+              fontSize: 32,
               fontFamily: 'Google Sans',
             ),
           ),
@@ -23,6 +24,6 @@ class TreeSign extends TextComponent with HasGameRef<SuperDashGame> {
     await super.onLoad();
 
     final currentLevel = gameRef.state.currentLevel;
-    text = 'DAY $currentLevel';
+    text = 'Ngày thứ $currentLevel';
   }
 }
