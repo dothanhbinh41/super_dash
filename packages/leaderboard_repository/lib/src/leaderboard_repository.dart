@@ -110,9 +110,7 @@ class LeaderboardRepository {
     }
     final obj = jsonDecode(str);
     if (DateTime.parse(obj['save_time'] as String)
-            .difference(DateTime.now())
-            .inHours >
-        1) {
+        .isBefore(DateTime.now().add(const Duration(hours: -1)))) {
       return await reloadFinishTime();
     }
     return DateTime.parse(obj['time'] as String);

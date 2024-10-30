@@ -196,9 +196,9 @@ class LeaderboardLoadingWidget extends StatelessWidget {
 
 @visibleForTesting
 class LeaderboardContent extends StatelessWidget {
-  DateTime finishTime;
+  final DateTime finishTime;
 
-  LeaderboardContent({
+  const LeaderboardContent({
     required this.entries,
     required this.current,
     required this.finishTime,
