@@ -298,19 +298,20 @@ class SuperDashGame extends LeapGame
   Future<void> _loadNewSection() async {
     _resetEntities();
     player?.walkSpeed = tileSize * speed;
-    await loadWorldAndMap(
-      images: images,
-      prefix: prefix,
-      bundle: customBundle,
-      tiledMapPath: _sections.first,
+    Future<void>.delayed(
+      const Duration(seconds: 1),
+      () async {
+        await loadWorldAndMap(
+          images: images,
+          prefix: prefix,
+          bundle: customBundle,
+          tiledMapPath: _sections.first,
+        );
+        _addTreeHouseFrontLayer();
+        _addTreeHouseSign();
+        await _addSpawners();
+      },
     );
-    if (isLastSection || isFirstSection) {
-      _addTreeHouseFrontLayer();
-    }
-    if (isFirstSection) {
-      _addTreeHouseSign();
-    }
-    await _addSpawners();
   }
 
   @override

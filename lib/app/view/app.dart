@@ -8,7 +8,6 @@ import 'package:super_dash/game_intro/game_intro.dart';
 import 'package:super_dash/l10n/l10n.dart';
 import 'package:super_dash/settings/settings.dart';
 import 'package:super_dash/share/share.dart';
-import 'package:toastification/toastification.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -50,8 +49,7 @@ class App extends StatelessWidget {
             value: leaderboardRepository,
           ),
         ],
-        child: ToastificationWrapper(
-            child: MaterialApp(
+        child: MaterialApp(
           theme: ThemeData(
             textTheme: AppTextStyles.textTheme,
           ),
@@ -60,7 +58,7 @@ class App extends StatelessWidget {
           home: const GameIntroPage(),
           locale: const Locale.fromSubtags(languageCode: 'vi'),
           debugShowCheckedModeBanner: false,
-        )),
+        ),
       ),
     );
   }
