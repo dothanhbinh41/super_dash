@@ -34,9 +34,9 @@ class $AssetsImagesGen {
   AssetGenImage get dashWins =>
       const AssetGenImage('assets/images/dash_wins.png');
 
-  /// File path: assets/images/game_background.png
+  /// File path: assets/images/game_background.jpg
   AssetGenImage get gameBackground =>
-      const AssetGenImage('assets/images/game_background.png');
+      const AssetGenImage('assets/images/game_background.jpg');
 
   /// File path: assets/images/game_logo.png
   AssetGenImage get gameLogo =>

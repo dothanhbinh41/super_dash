@@ -54,7 +54,7 @@ class AudioController {
           (i) => createPlayer(playerId: 'sfxPlayer#$i'),
         ).toList(growable: false),
         _playlist = Queue.of(List<Song>.of(songs)..shuffle()) {
-    _musicPlayer.onPlayerComplete.listen(_changeSong);
+    // _musicPlayer.onPlayerComplete.listen(_changeSong);
   }
   static final _log = Logger('AudioController');
 
@@ -214,11 +214,10 @@ class AudioController {
   }
 
   Future<void> _playFirstSongInPlaylist() async {
-    _log.info(() => 'Playing ${_playlist.first} now.');
-    await _musicPlayer.play(
-      AssetSource('music/${_playlist.first.filename}'),
-      volume: 0.3,
-    );
+    // await _musicPlayer.play(
+    //   AssetSource('music/${_playlist.first.filename}'),
+    //   volume: 0.3,
+    // );
   }
 
   Future<void> _resumeMusic() async {
