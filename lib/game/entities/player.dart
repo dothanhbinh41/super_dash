@@ -2,13 +2,15 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
+import 'package:flame_behaviors/src/entity.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/widgets.dart';
 import 'package:leap/leap.dart';
 import 'package:super_dash/audio/audio.dart';
 import 'package:super_dash/game/game.dart';
 
-class Player extends JumperCharacter with HasGameRef<SuperDashGame> {
+class Player extends JumperCharacter<SuperDashGame>
+    with HasGameRef<SuperDashGame>, HasAnimationGroup, HasHealth {
   Player({
     required this.levelSize,
     required this.cameraViewport,
@@ -19,6 +21,23 @@ class Player extends JumperCharacter with HasGameRef<SuperDashGame> {
       levelSize: levelSize,
       showCameraBounds: true,
     );
+
+    add(JumperAccelerationBehavior());
+    add(GravityAccelerationBehavior());
+    // Global collision detection
+    add(CollisionDetectionBehavior());
+    // Other state based behaviors
+    add(OnLadderMovementBehavior());
+    // Apply velocity to position (respecting collisions)
+    add(ApplyVelocityBehavior());
+    // Cosemetic behaviors
+    // add(AnimationVelocityFlipBehavior());
+
+    // Children
+    add(animationGroup);
+
+    health = 1;
+    solidTags.add(CommonTags.ground);
   }
 
   bool get isOnGround => collisionInfo.down;
@@ -51,6 +70,7 @@ class Player extends JumperCharacter with HasGameRef<SuperDashGame> {
   int get priority => 1;
 
   void jumpEffects() {
+    jumping = true;
     final jumpSound = hasGoldenFeather ? Sfx.phoenixJump : Sfx.jump;
     gameRef.audioController.playSfx(jumpSound);
 
@@ -60,6 +80,7 @@ class Player extends JumperCharacter with HasGameRef<SuperDashGame> {
   }
 
   void doubleJumpEffects() {
+    jumping = true;
     gameRef.audioController.playSfx(Sfx.phoenixJump);
     stateBehavior.state = DashState.phoenixDoubleJump;
   }
@@ -98,12 +119,10 @@ class Player extends JumperCharacter with HasGameRef<SuperDashGame> {
     add(PlayerControllerBehavior());
     add(PlayerStateBehavior());
     add(cameraAnchor);
-    cameraAnchor.mounted;
     gameRef.camera.follow(cameraAnchor);
     size = Vector2.all(gameRef.tileSize * .5);
     walkSpeed = gameRef.tileSize * speed;
     minJumpImpulse = gameRef.world.gravity * jumpImpulse;
-
     loadSpawnPoint();
     loadRespawnPoints();
   }
@@ -287,5 +306,221 @@ class Player extends JumperCharacter with HasGameRef<SuperDashGame> {
   Future<void> sectionCleared() async {
     isPlayerTeleporting = true;
     await gameRef.sectionCleared();
+  }
+
+  @override
+  AnchoredAnimationGroup animationGroup = PlayerSpriteAnimation();
+}
+
+// class PlayerCollisionBehavior extends PhysicalBehavior<Player> {
+//   @override
+//   void update(double dt) {
+//     if (parent.isDead) {
+//       return;
+//     }
+
+//     if (parent.didEnemyBop) {
+//       parent.didEnemyBop = false;
+//       velocity.y = -parent.minJumpImpulse;
+//     }
+
+//     for (final other in collisionInfo.allCollisions) {
+//       if (other is Coin) {
+//         other.collect();
+//         parent.coins++;
+//         parent._checkForLevelCompletion();
+//       }
+
+//       if (other is InfoText) {
+//         other.activateText();
+//       }
+
+//       if (other is Door &&
+//           parent._input.justPressed &&
+//           parent._input.isPressedCenter) {
+//         other.enter(parent);
+//       }
+//     }
+//   }
+// }
+
+// class PlayerDeathBehavior extends PhysicalBehavior<Player> {
+//   @override
+//   void update(double dt) {
+//     if (parent.isDead) {
+//       parent.deadTime += dt;
+//       // Set zero on velocity again in case player died this tick
+//       parent.velocity.setZero();
+//     }
+
+//     if (leapWorld.isOutside(parent) || (parent.isDead && parent.deadTime > 3)) {
+//       parent.health = parent.initialHealth;
+//       parent.deadTime = 0;
+//       parent.resetPosition();
+//     }
+
+//     if (parent.wasAlive && !parent.isAlive) {
+//       FlameAudio.play('die.wav');
+//     }
+//   }
+// }
+
+class PlayerSpriteAnimation extends AnchoredAnimationGroup<DashState, Player>
+    with HasGameRef<SuperDashGame> {
+  PlayerSpriteAnimation() : super(scale: Vector2.all(1));
+
+  @override
+  Future<void>? onLoad() async {
+    final [
+      idleAnimation,
+      runningAnimation,
+      phoenixIdleAnimation,
+      phoenixRunningAnimation,
+      deathPitAnimation,
+      deathFaintAnimation,
+      jumpAnimation,
+      phoenixJumpAnimation,
+      phoenixDoubleJumpAnimation,
+    ] = await Future.wait(
+      [
+        parent.gameRef.loadSpriteAnimation(
+          'anim/spritesheet_dash_idle.png',
+          SpriteAnimationData.sequenced(
+            amount: 18,
+            stepTime: 0.042,
+            textureSize: Vector2.all(parent.gameRef.tileSize),
+          ),
+        ),
+        parent.gameRef.loadSpriteAnimation(
+          'anim/spritesheet_dash_run.png',
+          SpriteAnimationData.sequenced(
+            amount: 16,
+            stepTime: 0.042,
+            textureSize: Vector2.all(parent.gameRef.tileSize),
+          ),
+        ),
+        parent.gameRef.loadSpriteAnimation(
+          'anim/spritesheet_phoenixDash_idle.png',
+          SpriteAnimationData.sequenced(
+            amount: 18,
+            stepTime: 0.042,
+            textureSize: Vector2.all(parent.gameRef.tileSize),
+          ),
+        ),
+        parent.gameRef.loadSpriteAnimation(
+          'anim/spritesheet_phoenixDash_run.png',
+          SpriteAnimationData.sequenced(
+            amount: 16,
+            stepTime: 0.042,
+            textureSize: Vector2.all(parent.gameRef.tileSize),
+          ),
+        ),
+        parent.gameRef.loadSpriteAnimation(
+          'anim/spritesheet_dash_deathPit.png',
+          SpriteAnimationData.sequenced(
+            amount: 24,
+            stepTime: 0.042,
+            textureSize: Vector2.all(parent.gameRef.tileSize),
+            amountPerRow: 8,
+            loop: false,
+          ),
+        ),
+        parent.gameRef.loadSpriteAnimation(
+          'anim/spritesheet_dash_deathFaint.png',
+          SpriteAnimationData.sequenced(
+            amount: 24,
+            stepTime: 0.042,
+            textureSize: Vector2.all(parent.gameRef.tileSize),
+            amountPerRow: 8,
+            loop: false,
+          ),
+        ),
+        parent.gameRef.loadSpriteAnimation(
+          'anim/spritesheet_dash_jump.png',
+          SpriteAnimationData.sequenced(
+            amount: 16,
+            stepTime: 0.042,
+            textureSize: Vector2.all(parent.gameRef.tileSize),
+            loop: false,
+          ),
+        ),
+        parent.gameRef.loadSpriteAnimation(
+          'anim/spritesheet_phoenixDash_jump.png',
+          SpriteAnimationData.sequenced(
+            amount: 16,
+            stepTime: 0.042,
+            textureSize: Vector2(
+              parent.gameRef.tileSize,
+              parent.gameRef.tileSize * 2,
+            ),
+            amountPerRow: 8,
+            loop: false,
+          ),
+        ),
+        parent.gameRef.loadSpriteAnimation(
+          'anim/spritesheet_phoenixDash_doublejump.png',
+          SpriteAnimationData.sequenced(
+            amount: 16,
+            stepTime: 0.042,
+            textureSize: Vector2.all(parent.gameRef.tileSize),
+            loop: false,
+          ),
+        ),
+      ],
+    );
+
+    animations = {
+      DashState.idle: idleAnimation,
+      DashState.running: runningAnimation,
+      DashState.phoenixIdle: phoenixIdleAnimation,
+      DashState.phoenixRunning: phoenixRunningAnimation,
+      DashState.deathPit: deathPitAnimation,
+      DashState.deathFaint: deathFaintAnimation,
+      DashState.jump: jumpAnimation,
+      DashState.phoenixJump: phoenixJumpAnimation,
+      DashState.phoenixDoubleJump: phoenixDoubleJumpAnimation,
+    };
+
+    current = DashState.idle;
+
+    return super.onLoad();
+  }
+
+  @override
+  @mustCallSuper
+  void update(double dt) {
+    playing = true;
+
+    if (parent.isDead) {
+      current = DashState.deathPit;
+    } else if (parent.hasStatus<OnLadderStatus>()) {
+      if (parent.getStatus<OnLadderStatus>()!.movement ==
+          LadderMovement.stopped) {
+        playing = false;
+      } else {
+        playing = true;
+      }
+      current = DashState.running;
+    } else {
+      if (parent.collisionInfo.down) {
+        // On the ground.
+        if (parent.velocity.x.abs() > 0) {
+          current = DashState.running;
+        } else {
+          current = DashState.idle;
+        }
+      } else {
+        // In the air.
+        if (parent.velocity.y > (parent.leapWorld.maxGravityVelocity)) {
+          current = DashState.phoenixRunning;
+        } else if (parent.velocity.y >
+            (parent.leapWorld.maxGravityVelocity / 4)) {
+          current = DashState.running;
+        } else if (parent.velocity.y < 0) {
+          current = DashState.jump;
+        }
+      }
+    }
+    super.update(dt);
   }
 }

@@ -22,7 +22,7 @@ class FollowPathBehavior extends Behavior<PhysicalEntity> {
 
     const speed = 3.0;
 
-    final tileSize = parent.leapGame.tileSize;
+    final tileSize = 64.0; //parent.leapGame.tileSize;
     final steps = [...pathExpression.path.path];
 
     final effects = <MoveEffect>[];

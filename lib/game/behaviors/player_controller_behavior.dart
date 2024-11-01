@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:flame_behaviors/flame_behaviors.dart';
 import 'package:flutter/widgets.dart';
+import 'package:leap/leap.dart';
 import 'package:super_dash/game/game.dart';
 
-class PlayerControllerBehavior extends Behavior<Player> {
+class PlayerControllerBehavior extends PhysicalBehavior<Player> {
   @visibleForTesting
   bool doubleJumpUsed = false;
 
@@ -45,11 +46,11 @@ class PlayerControllerBehavior extends Behavior<Player> {
     }
 
     // If is isWalking, jump
-    if (parent.isWalking && parent.isOnGround) {
+    if (parent.isWalking) {
       parent
         ..jumpEffects()
         ..jumping = true;
-      _jumpTimer = 0.04;
+      _jumpTimer = 0.01;
       return;
     }
 
