@@ -95,7 +95,7 @@ class GameInfoDialog extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Từ 16/11/2024 - 17/11/2024',
+                  '16h-20h hàng ngày từ 18/11 - 22/11',
                   style: linkStyle,
                   textAlign: TextAlign.center,
                 ),
